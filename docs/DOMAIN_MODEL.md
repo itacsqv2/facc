@@ -39,6 +39,31 @@ Do not generate every table in the first slice. This is an aggregate map. Implem
 - Verified organizer update > older import; record conflict as a review case. Do not overwrite a critical verified field silently.
 - Withdrawn permission -> unpublish affected text/media as dictated by the license and audit obligations; retain only minimal audit as reviewed legally.
 
+## Implemented semantics (Phase 01C, DEMO catalog - see D013-D016)
+Code: `src/modules/catalog/{types,filters,format,time}.ts`. These are the rules the UI and tests enforce today.
+
+**Event vs Occurrence.** `Event` (stable `slug`, content, price, age, booking, organizer, source) owns 1..n `Occurrence` (stable `id`, venue, UTC `startsAt`/`endsAt`, IANA `timeZone`, own status). Cancelling one occurrence never touches the others.
+
+**Occurrence lifecycle.** `draft` -> `published` -> `needs_confirmation` | `cancelled` | `ended`. `ended` is also derived when `endsAt <= now`.
+
+| Status | In catalog | Public URL | Booking CTA | In saved list |
+|---|---|---|---|---|
+| draft | no | 404 (never leaves the repository) | no | n/a |
+| published, not ended | yes | 200 | demo notice only | yes |
+| needs_confirmation | no | 200, "In attesa di conferma" | no | yes, flagged |
+| cancelled | no | 200, "Evento annullato" | no | yes, flagged |
+| ended (stored or elapsed) | no | 200, "Evento terminato" | no | yes, flagged |
+
+**Price** (per person, standard ticket): `FREE` (confirmed) / `PAID` with `basis: "exact"` / `PAID` with `basis: "from"` ("da 3 EUR", may cost more) / `UNKNOWN` ("Prezzo da verificare"). Filters: "Solo gratis" = FREE; "A pagamento" = PAID (exact or from); budget = FREE or exact PAID <= ceiling. UNKNOWN never matches free, paid or budget.
+
+**Age** (whole years, as declared by the organizer): `range {min, max|null}` / `all_ages` / `not_verified`. The filter takes the exact age of one child; match = `all_ages` or `min <= age <= max` (no max = no upper limit). `not_verified` never matches.
+
+**Booking**: `required` (obbligatoria) / `recommended` (facoltativa) / `not_required` (senza prenotazione) / `not_verified` (non verificata).
+
+**Time windows** (Europe/Rome): see D013. Instants are UTC; local wall times are converted with DST policy "compatible" (ambiguous -> earlier instant, non-existent -> shifted forward).
+
+**Public URL eligibility**: `/eventi/<slug>` needs at least one non-draft occurrence; `?data=<id>`, when present, must be exactly one of THAT event's non-draft occurrences. Otherwise HTTP 404 (D014).
+
 ## Explicit edge cases for test fixtures
 - Two occurrences of same workshop on different Saturdays; cancel only second.
 - Event starts at 23:30, ends after midnight; weekend boundaries must work.
