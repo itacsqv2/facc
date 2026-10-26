@@ -21,6 +21,7 @@ Statuses: NOT STARTED / IN PROGRESS / DONE / BLOCKED. A ticket is DONE only with
 | KESIFA-015 | P1 | Organizer widget | Embeddable and source attribution, rate limit | NOT STARTED |
 | KESIFA-016 | DEFER | Ticket checkout / LLM assistant / native / reviews | Investment gate, dedicated spec and legal assessment required | NOT STARTED |
 | KESIFA-017 | P1 | Interactive event map (01D) | List/Map share one result set; clusters; preview; search this area; geolocation on click; WebGL/provider fallbacks | DONE on DEMO data (2026-10-23): 63 unit + 56 e2e pass with mocked MapTiler style. Real MapTiler key verified on localhost 2026-10-26 (style, tiles, sprite HTTP 200; attribution shown once with links, uncovered at 320/390/1280) |
+| KESIFA-018 | P1 | DEMO events around Lago d'Orta | 10 invented events, zone + map framing, all DEMO-labelled, no real organizers | DONE (2026-10-26): 69 unit + 58 e2e pass; checked on real MapTiler tiles at 390/1280 |
 
 ## Phase 02 debts carried from 01C
 | ID | Priority | Debt | Done when |

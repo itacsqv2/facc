@@ -53,10 +53,11 @@ describe("demo dataset", () => {
     expect(slugs(FRIDAY)).toEqual(slugs(new Date("2027-03-29T08:00:00Z")));
   });
 
-  it("has 12-20 synthetic occurrences, demo slugs, non-routable contacts and no verification", () => {
+  it("has a bounded set of synthetic occurrences, demo slugs, non-routable contacts and no verification", () => {
     const data = buildDemoDataset(FRIDAY);
-    expect(data.occurrences.length).toBeGreaterThanOrEqual(12);
-    expect(data.occurrences.length).toBeLessThanOrEqual(20);
+    // 19 Bergamo-area occurrences + 11 around the Lago d'Orta (owner request 2026-10-26).
+    expect(data.occurrences).toHaveLength(30);
+    expect(data.events.filter((e) => e.organizerId === "org-lago" || e.id.startsWith("ev-orta-"))).toHaveLength(10);
     expect(data.events.every((e) => e.isDemo && e.slug.startsWith("demo-"))).toBe(true);
     expect(data.organizers.every((o) => o.isDemo && o.contact.endsWith(".invalid"))).toBe(true);
     expect(data.source.lastConfirmedAt).toBeNull();
@@ -86,26 +87,38 @@ describe("window rule: overlap with the part of the window still ahead", () => {
     const entries = await repo.listEntries(FRIDAY);
     expect(ids(filterCatalog(entries, filters(), FRIDAY, TZ))).toEqual([
       "occ-luci-1", // multi-day, started Thursday, still running
-      "occ-giocattoli-1", // starts exactly now
-      "occ-storie-1",
-      "occ-burattini-1",
+      "occ-giocattoli-1", // 10:00, starts exactly now; ties ordered by id
+      "occ-orta-acquerello-1",
+      "occ-orta-mostra-1",
+      "occ-orta-storie-1", // 16:00
+      "occ-storie-1", // 16:30
+      "occ-orta-merenda-1", // 17:30
+      "occ-burattini-1", // 18:00
     ]);
   });
 
   it("today excludes what already ended earlier today", async () => {
     const entries = await repo.listEntries(FRIDAY);
     const evening = new Date("2026-10-23T17:00:00Z"); // 19:00
-    expect(ids(filterCatalog(entries, filters(), evening, TZ))).toEqual(["occ-luci-1", "occ-giocattoli-1"]);
+    // 19:00: everything ending at or before 19:00 is gone (the Gozzano exhibition ends exactly now).
+    expect(ids(filterCatalog(entries, filters(), evening, TZ))).toEqual(["occ-luci-1", "occ-giocattoli-1", "occ-orta-acquerello-1"]);
   });
 
   it("weekend on Friday excludes cancelled, unconfirmed, draft and later dates", async () => {
     const entries = await repo.listEntries(FRIDAY);
     expect(ids(filterCatalog(entries, filters({ window: "weekend" }), FRIDAY, TZ))).toEqual([
       "occ-luci-1",
-      "occ-ceramica-1",
+      "occ-ceramica-1", // Sat 10:00
+      "occ-orta-mostra-2", // Sat 10:00
+      "occ-orta-tesoro-1",
       "occ-concerto-1",
+      "occ-orta-concerto-1",
+      "occ-orta-lucciole-1",
       "occ-lanterne-1",
-      "occ-erbe-1",
+      "occ-erbe-1", // Sun 09:30
+      "occ-orta-bosco-1", // Sun 09:30
+      "occ-orta-kayak-1",
+      "occ-orta-baratto-1",
       "occ-minivolley-1",
     ]);
   });
@@ -263,10 +276,38 @@ describe("age rule: exact child age", () => {
   });
 });
 
+describe("Lago d'Orta zone", () => {
+  it("lists today and weekend activities around the lake", async () => {
+    const entries = await repo.listEntries(FRIDAY);
+    expect(ids(filterCatalog(entries, filters({ zone: "lago-orta" }), FRIDAY, TZ))).toEqual([
+      "occ-orta-acquerello-1",
+      "occ-orta-mostra-1",
+      "occ-orta-storie-1",
+      "occ-orta-merenda-1",
+    ]);
+    expect(filterCatalog(entries, filters({ window: "weekend", zone: "lago-orta" }), FRIDAY, TZ)).toHaveLength(7);
+  });
+
+  it("price, age and booking states stay explicit for the new events", async () => {
+    const entries = await repo.listEntries(FRIDAY);
+    expect(priceLabel(byId(entries, "occ-orta-kayak-1").event.price)).toMatch(/^da 15\s€$/u);
+    expect(priceLabel(byId(entries, "occ-orta-concerto-1").event.price)).toBe("Prezzo da verificare");
+    expect(ageLabel(byId(entries, "occ-orta-bosco-1").event.age)).toBe("Età non indicata");
+    expect(matchesAge(byId(entries, "occ-orta-merenda-1"), 2)).toBe(true);
+    expect(matchesAge(byId(entries, "occ-orta-merenda-1"), 4)).toBe(false);
+  });
+});
+
 describe("composite filters", () => {
   it("weekend + 4-year-old: only declared-compatible activities", async () => {
     const entries = await repo.listEntries(FRIDAY);
-    expect(ids(filterCatalog(entries, filters({ window: "weekend", age: 4 }), FRIDAY, TZ))).toEqual(["occ-luci-1", "occ-concerto-1"]);
+    expect(ids(filterCatalog(entries, filters({ window: "weekend", age: 4 }), FRIDAY, TZ))).toEqual([
+      "occ-luci-1",
+      "occ-orta-mostra-2",
+      "occ-concerto-1",
+      "occ-orta-concerto-1",
+      "occ-orta-baratto-1",
+    ]);
   });
 
   it("weekend + zone + category + free + age + budget stay consistent", async () => {
@@ -280,8 +321,10 @@ describe("composite filters", () => {
 
   it("combined filters can produce an empty result", async () => {
     const entries = await repo.listEntries(FRIDAY);
-    expect(filterCatalog(entries, filters({ window: "weekend", category: "musei" }), FRIDAY, TZ)).toEqual([]);
-    expect(filterCatalog(entries, filters({ window: "weekend", price: "paid", maxPrice: 5 }), FRIDAY, TZ)).toEqual([]);
+    expect(filterCatalog(entries, filters({ window: "weekend", zone: "citta-alta-colli", category: "musei" }), FRIDAY, TZ)).toEqual([]);
+    expect(
+      filterCatalog(entries, filters({ window: "weekend", zone: "citta-alta-colli", price: "paid", maxPrice: 5 }), FRIDAY, TZ),
+    ).toEqual([]);
   });
 });
 

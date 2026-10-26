@@ -31,24 +31,24 @@ test.describe("mobile discovery flow (390px)", () => {
     await page.goto("/");
     await expect(page.getByText("Modalità DEMO").first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "In programma oggi" })).toBeVisible();
-    await expect(results(page)).toHaveCount(4);
+    await expect(results(page)).toHaveCount(8);
 
     const weekend = page.getByRole("button", { name: /Questo weekend/ });
     await weekend.click();
     await expect(weekend).toHaveAttribute("aria-pressed", "true");
     await expect(page.getByRole("heading", { level: 2, name: "In programma questo weekend" })).toBeVisible();
-    await expect(results(page)).toHaveCount(6);
-    await expect(page.locator('[aria-live="polite"]')).toHaveText("6 attività questo weekend");
+    await expect(results(page)).toHaveCount(13);
+    await expect(page.locator('[aria-live="polite"]')).toHaveText("13 attività questo weekend");
 
     await openMoreFiltersIfCollapsed(page);
     await page.getByLabel("Categoria").selectOption("natura");
     await page.getByLabel("Costo").selectOption("free");
-    await expect(results(page)).toHaveCount(3);
+    await expect(results(page)).toHaveCount(5);
     await expect(page).toHaveURL(/quando=weekend/);
     await expect(page).toHaveURL(/categoria=natura/);
 
     // Every card is marked DEMO.
-    await expect(results(page).getByText("DEMO", { exact: true })).toHaveCount(3);
+    await expect(results(page).getByText("DEMO", { exact: true })).toHaveCount(5);
 
     await page.getByRole("link", { name: "Notte delle lanterne sul lungolago" }).click();
     await expect(page).toHaveURL(/\/eventi\/demo-notte-delle-lanterne-sul-lungolago\?data=occ-lanterne-1$/);
@@ -76,16 +76,22 @@ test.describe("mobile discovery flow (390px)", () => {
     await page.goto("/?quando=weekend");
     await openMoreFiltersIfCollapsed(page);
     await page.getByLabel("Età del bambino").selectOption("4");
-    await expect(results(page)).toHaveCount(2);
-    await expect(results(page).getByRole("link")).toHaveText(["Sentiero delle luci nel parco", "Concerto per famiglie: strumenti in gioco"]);
+    await expect(results(page)).toHaveCount(5);
+    await expect(results(page).getByRole("link")).toHaveText([
+      "Sentiero delle luci nel parco",
+      "Mostra di barche in miniatura",
+      "Concerto per famiglie: strumenti in gioco",
+      "Concerto al tramonto sul lago",
+      "Mercatino del baratto dei giochi",
+    ]);
     await expect(page).toHaveURL(/eta=4/);
   });
 
   test("empty combination shows explanation and «Rimuovi filtri» restores results", async ({ page }) => {
-    await page.goto("/?quando=weekend&categoria=musei");
+    await page.goto("/?quando=weekend&zona=citta-alta-colli&categoria=musei");
     await expect(page.getByRole("heading", { name: "Nessuna attività con questi filtri" })).toBeVisible();
     await page.getByRole("button", { name: "Rimuovi filtri" }).last().click();
-    await expect(results(page)).toHaveCount(6);
+    await expect(results(page)).toHaveCount(13);
     await expect(page).toHaveURL(/\/\?quando=weekend$/);
   });
 
@@ -95,7 +101,7 @@ test.describe("mobile discovery flow (390px)", () => {
     await expect(page.getByLabel("Zona DEMO")).toHaveValue("citta-alta-colli");
 
     await page.goto("/?quando=weekend&eta=04&max=7&zona=%3Cscript%3E&categoria=x");
-    await expect(results(page)).toHaveCount(6);
+    await expect(results(page)).toHaveCount(13);
     await expect(page).toHaveURL(/\/\?quando=weekend$/);
   });
 
@@ -196,7 +202,7 @@ test.describe("layout and accessibility", () => {
   const pages = [
     "/",
     "/?quando=weekend",
-    "/?quando=weekend&categoria=musei",
+    "/?quando=weekend&zona=citta-alta-colli&categoria=musei",
     "/eventi/demo-sentiero-delle-luci-nel-parco",
     "/eventi/demo-piccoli-vasai-laboratorio-ceramica?data=occ-ceramica-2",
     "/salvati",
@@ -249,7 +255,7 @@ test.describe("layout and accessibility", () => {
 
   for (const path of [
     "/",
-    "/?quando=weekend&categoria=musei",
+    "/?quando=weekend&zona=citta-alta-colli&categoria=musei",
     "/eventi/demo-concerto-per-famiglie-strumenti-in-gioco",
     "/eventi/demo-piccoli-vasai-laboratorio-ceramica?data=occ-ceramica-2",
     "/salvati",

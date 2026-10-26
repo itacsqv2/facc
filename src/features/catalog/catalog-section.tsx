@@ -25,6 +25,7 @@ export async function CatalogSection({ searchParams }: Props) {
       territoryName={activeTerritory.name}
       timeZone={activeTerritory.timeZone}
       territoryBounds={activeTerritory.map.bounds}
+      zoneBounds={activeTerritory.zoneBounds}
       // Resolved per request on the server: only a public style URL reaches the browser.
       mapProvider={resolveMapProvider(process.env)}
       initialView={params.vista === "mappa" ? "map" : "list"}

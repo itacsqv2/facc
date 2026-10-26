@@ -25,6 +25,8 @@ type Props = {
   results: CatalogEntry[];
   provider: MapProviderConfig | null;
   territoryBounds: BBox;
+  /** Frame of the chosen zone (or the whole territory); the map moves there when it changes. */
+  focusBounds: BBox;
   area: BBox | null;
   timeZone: string;
   onAreaChange: (change: AreaChange) => void;
@@ -37,7 +39,7 @@ const GEO_MESSAGES: Partial<Record<GeoState, string>> = {
   locating: "Ricerca della posizione…",
   denied: "Permesso di posizione negato o non disponibile. Puoi scegliere una zona dal menu o spostare la mappa.",
   unavailable: "Questo browser non fornisce la posizione. Scegli una zona dal menu o sposta la mappa.",
-  outside: "Sei fuori dall'area DEMO di Bergamo: la mappa resta sull'area dimostrativa.",
+  outside: "Sei fuori dall'area DEMO (Bergamo e Lago d'Orta): la mappa resta sull'area dimostrativa.",
   found: "Mostriamo le attività entro circa 2 km da te. La posizione non viene salvata.",
 };
 
@@ -52,7 +54,7 @@ function MapMessage({ children, action }: { children: React.ReactNode; action?: 
   );
 }
 
-export function MapPanel({ results, provider, territoryBounds, area, timeZone, onAreaChange, onShowList }: Props) {
+export function MapPanel({ results, provider, territoryBounds, focusBounds, area, timeZone, onAreaChange, onShowList }: Props) {
   // null during SSR/hydration, then the real capability: no mismatch.
   const webgl = useSyncExternalStore(noopSubscribe, detectWebGL, () => null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -66,7 +68,16 @@ export function MapPanel({ results, provider, territoryBounds, area, timeZone, o
   const byId = useMemo(() => new Map(results.map((entry) => [entry.occurrence.id, entry])), [results]);
   const selected = (selection?.occurrenceIds ?? []).map((id) => byId.get(id)).filter((e): e is CatalogEntry => !!e);
   // Captured once: later area changes move the map explicitly (fitBounds), not by re-creating it.
-  const [initialBounds] = useState(area ?? territoryBounds);
+  const [initialBounds] = useState(area ?? focusBounds);
+  const focusKey = focusBounds.join(",");
+  const lastFocus = useRef(focusKey);
+
+  // Choosing a zone frames it on the map (a user action, so no "Cerca in questa zona").
+  useEffect(() => {
+    if (focusKey === lastFocus.current) return;
+    lastFocus.current = focusKey;
+    apiRef.current?.fitBounds(focusBounds);
+  }, [focusKey, focusBounds]);
 
   useEffect(() => {
     if (selected.length > 0) previewHeading.current?.focus();

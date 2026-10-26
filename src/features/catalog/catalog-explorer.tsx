@@ -33,6 +33,7 @@ type Props = {
   territoryName: string;
   timeZone: string;
   territoryBounds: BBox;
+  zoneBounds: Readonly<Record<string, BBox>>;
   mapProvider: MapProviderConfig | null;
   initialView: DiscoveryView;
   initialArea: BBox | null;
@@ -104,6 +105,7 @@ export function CatalogExplorer({
   territoryName,
   timeZone,
   territoryBounds,
+  zoneBounds,
   mapProvider,
   initialView,
   initialArea,
@@ -311,6 +313,7 @@ export function CatalogExplorer({
             results={results}
             provider={mapProvider}
             territoryBounds={territoryBounds}
+            focusBounds={filters.zone === "all" ? territoryBounds : (zoneBounds[filters.zone] ?? territoryBounds)}
             area={area?.box ?? null}
             timeZone={timeZone}
             onAreaChange={setArea}

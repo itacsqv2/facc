@@ -7,7 +7,7 @@ export function Hero() {
       <div className="container-page pt-5 pb-10 sm:pt-8 sm:pb-14">
         <p className="mb-1.5 inline-flex items-center gap-2 text-sm font-semibold text-accent-strong">
           <span aria-hidden="true" className="size-2 rounded-full bg-sun" />
-          Famiglie e cultura · {activeTerritory.name} (area DEMO)
+          Area DEMO · {activeTerritory.name}
         </p>
         <h1 className="max-w-3xl text-[clamp(1.75rem,1.35rem+2vw,2.75rem)] leading-tight font-bold text-ink">
           Cosa facciamo oggi, vicino a noi?

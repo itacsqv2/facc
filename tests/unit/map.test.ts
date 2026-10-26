@@ -26,6 +26,16 @@ describe("demo venues on the real demo geography", () => {
     }
   });
 
+  it("every mapped venue lies inside the map frame of its own zone", () => {
+    for (const venue of buildDemoDataset(FRIDAY).venues) {
+      if (!venue.coordinates) continue;
+      const frame = activeTerritory.zoneBounds[venue.zoneId];
+      expect(frame, venue.zoneId).toBeDefined();
+      expect(inBBox(venue.coordinates, frame!), venue.id).toBe(true);
+      expect(bboxWithin(frame!, TERRITORY), venue.zoneId).toBe(true);
+    }
+  });
+
   it("the territory box contains its own center", () => {
     expect(isValidBBox(TERRITORY)).toBe(true);
     expect(inBBox(activeTerritory.map.center, TERRITORY)).toBe(true);

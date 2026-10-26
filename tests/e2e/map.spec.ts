@@ -23,7 +23,7 @@ test.describe("list / map modes share one result set", () => {
     const requests: string[] = [];
     page.on("request", (request) => requests.push(request.url()));
     await page.goto("/");
-    await expect(listItems(page)).toHaveCount(4);
+    await expect(listItems(page)).toHaveCount(8);
     expect(requests.filter((url) => url.includes("maptiler") || url.includes("maplibre"))).toEqual([]);
 
     await page.getByRole("button", { name: "Mappa", exact: true }).click();
@@ -34,17 +34,17 @@ test.describe("list / map modes share one result set", () => {
 
   test("filters update list and map together, including entries without coordinates", async ({ page }) => {
     await openMap(page);
-    await expect(mapCount(page)).toHaveText("4 attività sulla mappa");
+    await expect(mapCount(page)).toHaveText("8 attività sulla mappa");
 
     await page.getByRole("button", { name: /Questo weekend/ }).click();
-    await expect(mapCount(page)).toContainText("5 attività sulla mappa");
+    await expect(mapCount(page)).toContainText("12 attività sulla mappa");
     await expect(page.getByText("1 senza posizione, visibili solo nella")).toBeVisible();
 
     await page.getByLabel("Categoria").selectOption("natura");
-    await expect(mapCount(page)).toHaveText("3 attività sulla mappa");
+    await expect(mapCount(page)).toHaveText("5 attività sulla mappa");
 
     await page.getByRole("button", { name: "Lista", exact: true }).click();
-    await expect(listItems(page)).toHaveCount(3);
+    await expect(listItems(page)).toHaveCount(5);
     await expect(page).toHaveURL(/quando=weekend/);
     await expect(page).toHaveURL(/categoria=natura/);
   });
@@ -104,8 +104,31 @@ test.describe("markers, clusters and preview", () => {
     await openMap(page, "quando=weekend");
     await page.getByText("Elenco testuale delle attività sulla mappa").click();
     const items = page.locator("details ul > li");
-    await expect(items).toHaveCount(6);
+    await expect(items).toHaveCount(13);
     await expect(items.filter({ hasText: "posizione non disponibile" })).toHaveCount(1);
+  });
+});
+
+test.describe("zone framing", () => {
+  test("choosing «Lago d'Orta» frames the lake: all its markers are inside the visible map", async ({ page }) => {
+    await openMap(page);
+    await page.getByLabel("Zona DEMO").selectOption("lago-orta");
+    await expect(mapCount(page)).toHaveText("4 attività sulla mappa");
+    await expect(page.getByRole("button", { name: "Cerca in questa zona" })).toHaveCount(0);
+    await mapRegion(page).scrollIntoViewIfNeeded();
+    const map = await mapRegion(page).boundingBox();
+    if (!map) throw new Error("map missing");
+    const titles = ["Acquerello en plein air", "Mostra di barche in miniatura", "Storie sul lungolago", "Merenda musicale per piccolissimi"];
+    await expect(async () => {
+      for (const title of titles) {
+        const box = await mapRegion(page).getByRole("button", { name: new RegExp(`^${title} \\(DEMO\\)`) }).boundingBox();
+        expect(box, title).not.toBeNull();
+        expect(box!.x).toBeGreaterThanOrEqual(map.x);
+        expect(box!.x + box!.width).toBeLessThanOrEqual(map.x + map.width);
+        expect(box!.y).toBeGreaterThanOrEqual(map.y);
+        expect(box!.y + box!.height).toBeLessThanOrEqual(map.y + map.height);
+      }
+    }).toPass({ timeout: 10_000 });
   });
 });
 
@@ -118,7 +141,7 @@ test.describe("search in this area", () => {
     await expect(page.getByRole("button", { name: "Cerca in questa zona" })).toHaveCount(0);
 
     await page.getByRole("button", { name: "Rimuovi zona" }).click();
-    await expect(mapCount(page)).toHaveText("4 attività sulla mappa");
+    await expect(mapCount(page)).toHaveText("8 attività sulla mappa");
     await expect(page).not.toHaveURL(/area=/);
 
     // Mouse coordinates are viewport-relative: bring the map on screen first.
@@ -143,7 +166,7 @@ test.describe("search in this area", () => {
     await openMap(page, "quando=weekend&area=9.63,45.68,9.69,45.715");
     await page.getByRole("button", { name: "Rimuovi filtri" }).click();
     await expect(page.getByText("Zona scelta sulla mappa")).toHaveCount(0);
-    await expect(mapCount(page)).toContainText("5 attività sulla mappa");
+    await expect(mapCount(page)).toContainText("12 attività sulla mappa");
   });
 });
 
@@ -178,8 +201,8 @@ test.describe("geolocation (only on click, never stored)", () => {
     await context.setGeolocation({ latitude: 41.9028, longitude: 12.4964 });
     await openMap(page);
     await page.getByRole("button", { name: "Usa la mia posizione" }).click();
-    await expect(page.getByText("Sei fuori dall'area DEMO di Bergamo")).toBeVisible();
-    await expect(mapCount(page)).toHaveText("4 attività sulla mappa");
+    await expect(page.getByText("Sei fuori dall'area DEMO (Bergamo e Lago d'Orta)")).toBeVisible();
+    await expect(mapCount(page)).toHaveText("8 attività sulla mappa");
   });
 
   test("denied: explained, manual zone still available", async ({ page }) => {
@@ -203,7 +226,7 @@ test.describe("fallbacks", () => {
     await page.goto("/?vista=mappa");
     await expect(page.getByText(/WebGL disattivato/)).toBeVisible();
     await page.getByRole("button", { name: "Mostra la lista" }).click();
-    await expect(listItems(page)).toHaveCount(4);
+    await expect(listItems(page)).toHaveCount(8);
   });
 
   test("failing tiles alone do not hide a working map", async ({ page }) => {
@@ -221,7 +244,7 @@ test.describe("fallbacks", () => {
     await page.goto("/?vista=mappa");
     await expect(page.getByText("Il servizio della mappa non risponde in questo momento.")).toBeVisible({ timeout: 20_000 });
     await page.getByRole("button", { name: "Mostra la lista" }).click();
-    await expect(listItems(page)).toHaveCount(4);
+    await expect(listItems(page)).toHaveCount(8);
   });
 });
 
