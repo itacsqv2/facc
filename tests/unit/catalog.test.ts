@@ -271,11 +271,11 @@ describe("composite filters", () => {
 
   it("weekend + zone + category + free + age + budget stay consistent", async () => {
     const entries = await repo.listEntries(FRIDAY);
-    const base = { window: "weekend", zone: "borgo-esempio", category: "natura", price: "free" } as const;
+    const base = { window: "weekend", zone: "citta-alta-colli", category: "natura", price: "free" } as const;
     expect(ids(filterCatalog(entries, filters(base), FRIDAY, TZ))).toEqual(["occ-luci-1", "occ-erbe-1"]);
     expect(ids(filterCatalog(entries, filters({ ...base, age: 4 }), FRIDAY, TZ))).toEqual(["occ-luci-1"]);
     expect(ids(filterCatalog(entries, filters({ ...base, age: 4, maxPrice: 5 }), FRIDAY, TZ))).toEqual(["occ-luci-1"]);
-    expect(filterCatalog(entries, filters({ ...base, zone: "riva-campione", age: 4 }), FRIDAY, TZ)).toEqual([]);
+    expect(filterCatalog(entries, filters({ ...base, zone: "sarnico-iseo", age: 4 }), FRIDAY, TZ)).toEqual([]);
   });
 
   it("combined filters can produce an empty result", async () => {
@@ -286,13 +286,13 @@ describe("composite filters", () => {
 });
 
 describe("URL filters", () => {
-  const zones = ["valfittizia-centro", "borgo-esempio", "riva-campione"];
+  const zones = ["bergamo-bassa", "citta-alta-colli", "sarnico-iseo"];
 
   it("round-trips valid values", () => {
-    const value = filters({ window: "weekend", zone: "riva-campione", category: "natura", price: "free", maxPrice: 10, age: 4 });
+    const value = filters({ window: "weekend", zone: "sarnico-iseo", category: "natura", price: "free", maxPrice: 10, age: 4 });
     const parsed = parseFilters(Object.fromEntries(new URLSearchParams(serializeFilters(value))), zones);
     expect(parsed).toEqual(value);
-    expect(serializeFilters(value)).toBe("quando=weekend&zona=riva-campione&categoria=natura&prezzo=gratis&max=10&eta=4");
+    expect(serializeFilters(value)).toBe("quando=weekend&zona=sarnico-iseo&categoria=natura&prezzo=gratis&max=10&eta=4");
   });
 
   it("age 0 survives the round trip", () => {

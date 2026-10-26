@@ -7,16 +7,19 @@
     "node": ">=24"
   },
   "scripts": {
+    "predev": "node scripts/copy-map-worker.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/copy-map-worker.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "next build && playwright test"
+    "test:e2e": "npm run build && playwright test"
   },
   "dependencies": {
+    "maplibre-gl": "6.13.0",
     "next": "16.4.2",
     "react": "19.3.0",
     "react-dom": "19.3.0"

@@ -62,6 +62,8 @@ Code: `src/modules/catalog/{types,filters,format,time}.ts`. These are the rules 
 
 **Time windows** (Europe/Rome): see D013. Instants are UTC; local wall times are converted with DST policy "compatible" (ambiguous -> earlier instant, non-existent -> shifted forward).
 
+**Venue coordinates** (01D): `Venue.coordinates: [longitude, latitude] | null` (WGS84, GeoJSON/PostGIS order). `null` = listed but not mapped; with a map area active such venues are excluded because they cannot be proven inside it.
+
 **Public URL eligibility**: `/eventi/<slug>` needs at least one non-draft occurrence; `?data=<id>`, when present, must be exactly one of THAT event's non-draft occurrences. Otherwise HTTP 404 (D014).
 
 ## Explicit edge cases for test fixtures

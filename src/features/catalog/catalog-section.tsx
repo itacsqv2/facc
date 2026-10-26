@@ -2,6 +2,8 @@ import { activeTerritory } from "@/config/territory";
 import { catalogRepository } from "@/modules/catalog";
 import { requestNow } from "@/modules/catalog/clock";
 import { isActiveListing, parseFilters } from "@/modules/catalog/filters";
+import { parseArea } from "@/modules/geo/bbox";
+import { resolveMapProvider } from "@/modules/map/provider";
 import { CatalogExplorer } from "./catalog-explorer";
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -22,6 +24,11 @@ export async function CatalogSection({ searchParams }: Props) {
       zones={activeTerritory.zones}
       territoryName={activeTerritory.name}
       timeZone={activeTerritory.timeZone}
+      territoryBounds={activeTerritory.map.bounds}
+      // Resolved per request on the server: only a public style URL reaches the browser.
+      mapProvider={resolveMapProvider(process.env)}
+      initialView={params.vista === "mappa" ? "map" : "list"}
+      initialArea={parseArea(params.area, activeTerritory.map.bounds)}
     />
   );
 }

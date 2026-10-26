@@ -10,7 +10,7 @@ export const CATEGORY_SURFACE: Record<Category, string> = {
   sport: "bg-sun-soft",
 };
 
-const paths: Record<Category, string> = {
+export const CATEGORY_ICON_PATHS: Record<Category, string> = {
   laboratori: "M7 20h10M8 20c-1.5-2-2-4-1.5-7h11c.5 3 0 5-1.5 7M9 13V8a3 3 0 0 1 6 0v5",
   natura: "M12 21v-8m0 0c-4 0-6-3-6-7 4 0 6 3 6 7Zm0 0c0-4 2-7 6-7 0 4-2 7-6 7Z",
   musica: "M9 18V6l10-2v12M9 18a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm10-2a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z",
@@ -22,7 +22,7 @@ const paths: Record<Category, string> = {
 export function CategoryIcon({ category, className = "size-6" }: { category: Category; className?: string }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" className={className}>
-      <path d={paths[category]} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={CATEGORY_ICON_PATHS[category]} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

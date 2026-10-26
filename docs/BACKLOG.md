@@ -20,6 +20,7 @@ Statuses: NOT STARTED / IN PROGRESS / DONE / BLOCKED. A ticket is DONE only with
 | FACC-014 | P1 | Calendar ICS | Correct timezone, cancelled instance handling | NOT STARTED |
 | FACC-015 | P1 | Organizer widget | Embeddable and source attribution, rate limit | NOT STARTED |
 | FACC-016 | DEFER | Ticket checkout / LLM assistant / native / reviews | Investment gate, dedicated spec and legal assessment required | NOT STARTED |
+| FACC-017 | P1 | Interactive event map (01D) | List/Map share one result set; clusters; preview; search this area; geolocation on click; WebGL/provider fallbacks | DONE on DEMO data (2026-10-23): 63 unit + 56 e2e pass with mocked MapTiler style. Real MapTiler key verified on localhost 2026-10-26 (style, tiles, sprite HTTP 200; attribution shown once with links, uncovered at 320/390/1280) |
 
 ## Phase 02 debts carried from 01C
 | ID | Priority | Debt | Done when |
@@ -29,3 +30,6 @@ Statuses: NOT STARTED / IN PROGRESS / DONE / BLOCKED. A ticket is DONE only with
 | DEBT-03 | P0 | Run the CI workflow on GitHub with Node 24 (only local Node 25.8.1 verified) | First green run of `.github/workflows/ci.yml` |
 | DEBT-04 | P1 | Filters and the "Altri filtri" toggle require JavaScript (no GET-form fallback) | Filters usable with JS disabled, or limitation accepted |
 | DEBT-05 | P1 | Review braces / GHSA-vfj7-8cjw-p6xm exception | By 2026-11-15 (docs/SECURITY_AUDIT.md) |
+| DEBT-06 | P1 | Real MapTiler key: rendering verified on localhost (2026-10-26). Still open: confirm the key is restricted to allowed origins (localhost worked, so either localhost is allowed or the key is unrestricted), quotas and cost | Owner checks MapTiler dashboard; staging domain test |
+| DEBT-07 | P1 | Phase 02: move venue coordinates to PostGIS `geography(Point,4326)` and the area filter to `ST_Intersects`/`ST_MakeEnvelope`, keeping `[lng, lat]` | Repository returns the same entries; map e2e unchanged |
+| DEBT-08 | P1 | Map basemap/attribution contrast and screen-reader experience on real tiles; marker order for keyboard users | Manual a11y review with real tiles |

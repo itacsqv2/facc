@@ -14,7 +14,7 @@ A **modular monolith with server-rendered PWA** is the recommended starting poin
 | Authentication | Managed auth, email sign-in or magic link | Organizer/admin only in MVP; consumer public. |
 | Authorization | DB RLS where possible + server-side role checks | Defense in depth; no privileged client credentials. |
 | Media | Object storage with controlled upload, image optimization and rights metadata | Avoid copied third-party imagery without permission. |
-| Maps | Provider-backed MapLibre or Mapbox with licensed tile/geocoding service | Load on demand; not from unrestricted public OSM servers. |
+| Maps | MapLibre GL JS 6.13.0 + MapTiler (implemented 01D, D019) | Load on demand; not from unrestricted public OSM servers; no geocoding yet. |
 | Search | Postgres full-text + spatial indexes | Add external index only after evidence. |
 | Background jobs | Simple queued jobs/scheduler for import, expiry and verification reminders | Isolate only after volume requires it. |
 | Analytics | Minimal, privacy-reviewed event records + aggregates | Do not collect entire clickstream by default. |
@@ -28,6 +28,17 @@ A **modular monolith with server-rendered PWA** is the recommended starting poin
 - `ingestion`: sources/licenses, import runs, dedup candidates, review queue.
 - `trust`: reports, moderation cases, fraud/spam controls, takedown.
 - `measurement`: privacy-respecting analytics, query success, quality/retention.
+
+## Implemented map slice (Phase 01D)
+| Piece | Path | Notes |
+|---|---|---|
+| Geo helpers | `src/modules/geo/bbox.ts` | `[lng, lat]` points, `[west, south, east, north]` boxes (= `ST_MakeEnvelope`), `area=` URL parsing |
+| GeoJSON transform | `src/modules/map/geojson.ts` | The only Occurrence+Venue -> GeoJSON conversion; input is the already filtered result list; invalid/missing coordinates are reported, never placed at 0,0 |
+| Provider | `src/modules/map/provider.ts` | Resolved on the server per request from env (`MAP_PROVIDER`, `MAPTILER_PUBLIC_KEY`, `MAPTILER_MAP_ID`); the browser only gets a style URL + attribution. Swappable |
+| Map UI | `src/features/map/{map-panel,event-map,webgl}.tsx` | `next/dynamic` with `ssr: false`: MapLibre JS/CSS/worker load only in "Mappa" mode. HTML `<button>` markers over a clustered GeoJSON source (keyboard reachable). Fallback messages for no provider, no WebGL, provider error/timeout |
+| Worker | `scripts/copy-map-worker.mjs` | MapLibre v6 worker copied to `public/vendor/maplibre/` by `predev`/`prebuild`; set with `setWorkerUrl` |
+
+Data flow: `CatalogSection` (server) -> `CatalogExplorer` computes ONE `results` list = `filterCatalog(...)` + optional map area -> cards (Lista) and `toEventFeatureCollection(results)` (Mappa). Phase 02 can replace the area filter with `ST_Intersects(venue.location, ST_MakeEnvelope(...))` returning the same entries.
 
 ## Important invariants
 1. Public results use published, current, eligible occurrences; the organizer may manage ended/cancelled ones separately.

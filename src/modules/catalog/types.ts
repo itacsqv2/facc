@@ -45,6 +45,11 @@ export type OccurrenceStatus = "draft" | "published" | "needs_confirmation" | "c
 
 export type Zone = { id: string; name: string };
 
+/**
+ * WGS84 position, ALWAYS [longitude, latitude] (GeoJSON / PostGIS ST_Point order).
+ */
+export type LngLat = readonly [longitude: number, latitude: number];
+
 export type Venue = {
   id: string;
   name: string;
@@ -52,6 +57,8 @@ export type Venue = {
   zoneId: string;
   /** IANA timezone of the venue. */
   timeZone: string;
+  /** Venue position; null when unknown (the venue is then listed but not mapped). */
+  coordinates: LngLat | null;
 };
 
 export type Organizer = {

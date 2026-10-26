@@ -26,6 +26,7 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     reuseExistingServer: false,
     timeout: 120_000,
-    env: { FACC_DEMO_NOW: "2026-10-23T08:00:00.000Z" },
+    // Fake public key: tests intercept api.maptiler.com, so no request leaves the machine.
+    env: { FACC_DEMO_NOW: "2026-10-23T08:00:00.000Z", MAPTILER_PUBLIC_KEY: "e2eFakePublicKey" },
   },
 });

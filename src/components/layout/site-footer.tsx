@@ -24,7 +24,7 @@ export function SiteFooter() {
           <ul className="space-y-1 text-muted">
             <li>Nessun account richiesto</li>
             <li>Nessun cookie di tracciamento</li>
-            <li>Nessuna raccolta della posizione</li>
+            <li>Posizione usata solo nel browser, su richiesta</li>
           </ul>
         </div>
       </div>

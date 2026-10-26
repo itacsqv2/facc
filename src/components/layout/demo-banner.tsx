@@ -11,7 +11,7 @@ export function DemoBanner() {
           Modalità DEMO
         </span>
         <span>
-          Eventi, luoghi e organizzatori sono fittizi e non prenotabili.{" "}
+          Eventi, luoghi e organizzatori sono fittizi e non prenotabili; la mappa usa una zona reale solo come sfondo.{" "}
           <Link href="/#demo" className="font-semibold underline underline-offset-2 hover:text-sun">
             Dettagli
           </Link>

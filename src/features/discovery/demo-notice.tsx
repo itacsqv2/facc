@@ -13,11 +13,11 @@ export function DemoNotice() {
             Stai guardando una versione dimostrativa
           </h2>
           <ul className="list-disc space-y-1.5 pl-5 text-ink">
-            <li>L&apos;area «{activeTerritory.name}» e le sue località sono inventate.</li>
-            <li>Eventi, organizzatori, indirizzi e contatti sono inventati e marcati DEMO uno per uno.</li>
+            <li>La zona geografica ({activeTerritory.name}) è reale e serve solo da sfondo per la mappa.</li>
+            <li>Eventi, nomi dei luoghi, organizzatori, indirizzi e contatti sono inventati e marcati DEMO uno per uno: non corrispondono ad attività o enti reali. Le posizioni sulla mappa sono indicative.</li>
             <li>Le date si rigenerano ogni giorno a partire da oggi, per provare l&apos;app in qualsiasi momento.</li>
             <li>Non è possibile prenotare né pagare: nessun link porta a biglietti reali.</li>
-            <li>Non raccogliamo dati personali, posizione o cookie di tracciamento; i salvati restano nel tuo browser.</li>
+            <li>Non raccogliamo dati personali né cookie di tracciamento; i salvati restano nel tuo browser. La tua posizione, se la chiedi, resta nel browser e non viene salvata.</li>
           </ul>
         </div>
       </Card>

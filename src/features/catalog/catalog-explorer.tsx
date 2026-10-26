@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
+import { MapPanel, type AreaChange } from "@/features/map/map-panel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Select } from "@/components/ui/field";
@@ -19,6 +20,8 @@ import {
 import { CATEGORY_LABELS, dateBadge } from "@/modules/catalog/format";
 import { zonedTimeToUtc } from "@/modules/catalog/time";
 import { CATEGORIES, type CatalogEntry, type Category, type Zone } from "@/modules/catalog/types";
+import { inBBox, serializeArea, type BBox } from "@/modules/geo/bbox";
+import type { MapProviderConfig } from "@/modules/map/provider";
 import { EventCard } from "./event-card";
 
 type Props = {
@@ -29,7 +32,15 @@ type Props = {
   zones: readonly Zone[];
   territoryName: string;
   timeZone: string;
+  territoryBounds: BBox;
+  mapProvider: MapProviderConfig | null;
+  initialView: DiscoveryView;
+  initialArea: BBox | null;
 };
+
+export type DiscoveryView = "list" | "map";
+
+type Area = AreaChange | null;
 
 const WINDOW_TEXT: Record<DayWindowKey, { label: string; phrase: string }> = {
   today: { label: "Oggi", phrase: "oggi" },
@@ -85,14 +96,33 @@ function Segmented<T extends string>({
   );
 }
 
-export function CatalogExplorer({ entries, nowIso, initialFilters, zones, territoryName, timeZone }: Props) {
+export function CatalogExplorer({
+  entries,
+  nowIso,
+  initialFilters,
+  zones,
+  territoryName,
+  timeZone,
+  territoryBounds,
+  mapProvider,
+  initialView,
+  initialArea,
+}: Props) {
   const now = useMemo(() => new Date(nowIso), [nowIso]);
   const [filters, setFilters] = useState<CatalogFilters>(initialFilters);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [view, setView] = useState<DiscoveryView>(initialView);
+  const [area, setArea] = useState<Area>(initialArea ? { box: initialArea, source: "map" } : null);
   const panelId = useId();
 
-  const results = useMemo(() => filterCatalog(entries, filters, now, timeZone), [entries, filters, now, timeZone]);
-  const refined = hasRefinements(filters);
+  // ONE result list for cards and map: catalog filters, then the optional map area.
+  // With an area active, occurrences without coordinates are excluded (they cannot be placed inside it).
+  const results = useMemo(() => {
+    const filtered = filterCatalog(entries, filters, now, timeZone);
+    if (!area) return filtered;
+    return filtered.filter((entry) => entry.venue.coordinates !== null && inBBox(entry.venue.coordinates, area.box));
+  }, [entries, filters, now, timeZone, area]);
+  const refined = hasRefinements(filters) || area !== null;
   const refinementCount = [
     filters.category !== "all",
     filters.price !== "all",
@@ -108,19 +138,26 @@ export function CatalogExplorer({ entries, nowIso, initialFilters, zones, territ
     [now, timeZone],
   );
 
-  // Keep the URL shareable without a server round trip.
+  // Keep the URL shareable without a server round trip. An area derived from the
+  // device position is never written to the URL (no personal coordinates in history).
   useEffect(() => {
-    const query = serializeFilters(filters);
+    const params = new URLSearchParams(serializeFilters(filters));
+    if (view === "map") params.set("vista", "mappa");
+    if (area?.source === "map") params.set("area", serializeArea(area.box));
+    const query = params.toString();
     const url = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
     if (url !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
       window.history.replaceState(window.history.state, "", url);
     }
-  }, [filters]);
+  }, [filters, view, area]);
 
   const update = (patch: Partial<CatalogFilters>) => setFilters((current) => ({ ...current, ...patch }));
-  const reset = () => setFilters((current) => ({ ...DEFAULT_FILTERS, window: current.window }));
+  const reset = () => {
+    setFilters((current) => ({ ...DEFAULT_FILTERS, window: current.window }));
+    setArea(null);
+  };
 
-  const zoneLabel = filters.zone === "all" ? `${territoryName} e dintorni` : (zones.find((z) => z.id === filters.zone)?.name ?? "");
+  const zoneLabel = filters.zone === "all" ? `${territoryName} (area DEMO)` : (zones.find((z) => z.id === filters.zone)?.name ?? "");
   const countText = `${results.length} attività ${WINDOW_TEXT[filters.window].phrase}`;
 
   return (
@@ -138,7 +175,7 @@ export function CatalogExplorer({ entries, nowIso, initialFilters, zones, territ
               ]}
             />
             <Select label="Zona DEMO" value={filters.zone} onChange={(e) => update({ zone: e.target.value })}>
-              <option value="all">Tutte le zone di {territoryName}</option>
+              <option value="all">Tutte le zone</option>
               {zones.map((zone) => (
                 <option key={zone.id} value={zone.id}>
                   {zone.name}
@@ -227,7 +264,7 @@ export function CatalogExplorer({ entries, nowIso, initialFilters, zones, territ
           </div>
           <div className="flex items-center gap-2">
             {/* Visual highlight remounts on change; the live region stays stable for screen readers. */}
-            <p key={serializeFilters(filters)} aria-hidden="true" className="animate-flash rounded-full px-2 py-1 text-sm font-semibold text-ink">
+            <p key={`${serializeFilters(filters)}|${area ? serializeArea(area.box) : ""}`} aria-hidden="true" className="animate-flash rounded-full px-2 py-1 text-sm font-semibold text-ink">
               {countText}
             </p>
             <p aria-live="polite" className="sr-only">
@@ -241,7 +278,47 @@ export function CatalogExplorer({ entries, nowIso, initialFilters, zones, territ
           </div>
         </div>
 
-        {results.length > 0 ? (
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <div role="group" aria-label="Modalità di visualizzazione" className="flex gap-1 rounded-full border border-border-control bg-surface p-1">
+            {(["list", "map"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                aria-pressed={view === mode}
+                onClick={() => setView(mode)}
+                className={cn(
+                  "min-h-11 min-w-24 rounded-full px-4 text-sm font-bold transition-colors",
+                  view === mode ? "bg-accent text-white" : "text-ink hover:bg-accent-soft",
+                )}
+              >
+                {mode === "list" ? "Lista" : "Mappa"}
+              </button>
+            ))}
+          </div>
+          {area && (
+            <p className="flex flex-wrap items-center gap-x-2 rounded-lg bg-sun-soft px-3 py-1 text-sm text-ink">
+              <span className="font-semibold">{area.source === "map" ? "Zona scelta sulla mappa" : "Vicino alla tua posizione"}</span>
+              <span>· escluse le attività senza posizione</span>
+              <button type="button" onClick={() => setArea(null)} className="min-h-8 font-semibold text-accent underline underline-offset-2">
+                Rimuovi zona
+              </button>
+            </p>
+          )}
+        </div>
+
+        {view === "map" && (
+          <MapPanel
+            results={results}
+            provider={mapProvider}
+            territoryBounds={territoryBounds}
+            area={area?.box ?? null}
+            timeZone={timeZone}
+            onAreaChange={setArea}
+            onShowList={() => setView("list")}
+          />
+        )}
+
+        {view === "map" ? null : results.length > 0 ? (
           <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Risultati">
             {results.map((entry) => (
               <li key={entry.occurrence.id} className="min-w-0">

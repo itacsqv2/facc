@@ -1,6 +1,6 @@
 /**
  * SYNTHETIC DEMO catalog (D009). Every organizer, venue, address, contact and
- * event below is invented. Contacts use the reserved `.invalid` TLD so they can
+ * event below is invented; only the map geography is real (D018). Contacts use the reserved `.invalid` TLD so they can
  * never reach a real mailbox.
  *
  * Dates are generated deterministically from an injected reference instant, so
@@ -21,21 +21,29 @@ export const demoSource: Source = {
 
 export const demoOrganizers: Organizer[] = [
   { id: "org-famiglie", name: "Associazione Famiglie Esempio (DEMO)", contact: "info@famiglie-esempio.invalid", isDemo: true },
-  { id: "org-biblioteca", name: "Biblioteca civica di Valfittizia (DEMO)", contact: "biblioteca@valfittizia.invalid", isDemo: true },
+  { id: "org-biblioteca", name: "Sala lettura Esempio (DEMO)", contact: "letture@sala-esempio.invalid", isDemo: true },
   { id: "org-natura", name: "Cooperativa Prova Natura (DEMO)", contact: "natura@prova.invalid", isDemo: true },
   { id: "org-musica", name: "Scuola di musica Fittizia (DEMO)", contact: "segreteria@musica-fittizia.invalid", isDemo: true },
 ];
 
+/**
+ * Venue names and addresses are invented. Coordinates are only INDICATIVE points
+ * inside the real demo geography (Bergamo area, see D018), chosen to look plausible
+ * on a map; they do not identify any real business, school or institution.
+ * One venue deliberately has no coordinates, to exercise the "not on the map" path.
+ */
+const fictionalAddress = (street: string, zone: string) => `${street} (indirizzo fittizio, posizione indicativa: ${zone})`;
+
 export const demoVenues: Venue[] = [
-  { id: "v-bottega", name: "Bottega Esempio", address: "Via delle Prove 12, Borgo Esempio (indirizzo fittizio)", zoneId: "borgo-esempio", timeZone: TZ },
-  { id: "v-orto", name: "Orto didattico Esempio", address: "Strada dei Campi Finti 3, Borgo Esempio (indirizzo fittizio)", zoneId: "borgo-esempio", timeZone: TZ },
-  { id: "v-parco", name: "Parco dei Castagni Finti", address: "Ingresso di Via del Bosco 1, Borgo Esempio (indirizzo fittizio)", zoneId: "borgo-esempio", timeZone: TZ },
-  { id: "v-biblioteca", name: "Biblioteca civica di Valfittizia", address: "Piazza Immaginaria 1, Valfittizia Centro (indirizzo fittizio)", zoneId: "valfittizia-centro", timeZone: TZ },
-  { id: "v-auditorium", name: "Sala Prova Musica", address: "Via dei Suoni 8, Valfittizia Centro (indirizzo fittizio)", zoneId: "valfittizia-centro", timeZone: TZ },
-  { id: "v-palestra", name: "Palestra comunale demo", address: "Viale dello Sport 20, Valfittizia Centro (indirizzo fittizio)", zoneId: "valfittizia-centro", timeZone: TZ },
-  { id: "v-lungolago", name: "Lungolago di Riva Campione", address: "Passeggiata a lago, Riva Campione (luogo fittizio)", zoneId: "riva-campione", timeZone: TZ },
-  { id: "v-museo", name: "Museo del Gioco Esempio", address: "Via dei Balocchi 5, Riva Campione (indirizzo fittizio)", zoneId: "riva-campione", timeZone: TZ },
-  { id: "v-piazza", name: "Piazza del Campione", address: "Piazza del Campione, Riva Campione (luogo fittizio)", zoneId: "riva-campione", timeZone: TZ },
+  { id: "v-bottega", name: "Bottega Esempio", address: fictionalAddress("Via delle Prove 12", "Città Alta"), zoneId: "citta-alta-colli", timeZone: TZ, coordinates: [9.661, 45.7032] },
+  { id: "v-orto", name: "Orto didattico Esempio", address: fictionalAddress("Strada dei Campi Finti 3", "Colli di Bergamo"), zoneId: "citta-alta-colli", timeZone: TZ, coordinates: [9.645, 45.7085] },
+  { id: "v-parco", name: "Parco dei Castagni Finti", address: fictionalAddress("Ingresso di Via del Bosco 1", "Colli di Bergamo"), zoneId: "citta-alta-colli", timeZone: TZ, coordinates: [9.652, 45.706] },
+  { id: "v-biblioteca", name: "Sala lettura Esempio", address: fictionalAddress("Piazza Immaginaria 1", "Bergamo bassa"), zoneId: "bergamo-bassa", timeZone: TZ, coordinates: [9.668, 45.696] },
+  { id: "v-auditorium", name: "Sala Prova Musica", address: fictionalAddress("Via dei Suoni 8", "Bergamo bassa"), zoneId: "bergamo-bassa", timeZone: TZ, coordinates: [9.6735, 45.6925] },
+  { id: "v-palestra", name: "Palestra Esempio", address: "Viale dello Sport 20 (indirizzo fittizio, posizione non disponibile)", zoneId: "bergamo-bassa", timeZone: TZ, coordinates: null },
+  { id: "v-lungolago", name: "Lungolago Esempio", address: fictionalAddress("Passeggiata a lago", "Sarnico"), zoneId: "sarnico-iseo", timeZone: TZ, coordinates: [9.9625, 45.6695] },
+  { id: "v-museo", name: "Museo del Gioco Esempio", address: fictionalAddress("Via dei Balocchi 5", "Sarnico"), zoneId: "sarnico-iseo", timeZone: TZ, coordinates: [9.958, 45.6672] },
+  { id: "v-piazza", name: "Piazzetta Esempio", address: fictionalAddress("Piazzetta Esempio", "Sarnico"), zoneId: "sarnico-iseo", timeZone: TZ, coordinates: [9.9605, 45.6685] },
 ];
 
 type EventSeed = Omit<Event, "id" | "sourceId" | "isDemo"> & { id: string };

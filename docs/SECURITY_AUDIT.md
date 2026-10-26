@@ -15,6 +15,8 @@
 | Owner | Project owner |
 | Review by | **2026-11-15**: remove the exception when `npm audit` stops reporting the withdrawn advisory or a patched `braces` / `fast-glob` lands upstream |
 
+**Update 2026-10-23 (Phase 01D):** `npm audit` now reports **0 vulnerabilities** (exit 0) with `braces@3.0.3` still installed: the registry has applied the withdrawal. Exception E-001 can be closed by the owner at the 2026-11-15 review; no code change was needed.
+
 ## Install scripts
 `npm install-scripts ls`: `unrs-resolver@1.12.2 (postinstall: node postinstall.js)` is not approved under npm 11 `allowScripts`. It has **not** been approved; `npm run lint` passes without it (exit 0, verified 2026-10-23). The script was not inspected or executed. Revisit only if lint resolution fails.
 
@@ -28,4 +30,8 @@
 | Share | Leaking data to third parties | Web Share / clipboard of the page URL only; no external service | e2e clipboard fallback | Native share sheet untested | Eng |
 | `FACC_DEMO_NOW` | Shifting dates of a real catalog | Honoured only for DEMO territory and strict UTC ISO | Unit `demo-clock.test.ts` | Misconfiguration in a demo deploy | Owner |
 | Outbound links / booking | Fake purchase, phishing | No outbound booking links in DEMO; contacts use `.invalid` | e2e "Prenotazione non disponibile nella demo", no CTA on cancelled | Real links in Phase 02 need URL allow-listing | Eng |
+| Map provider key (real key in .env.local, git-ignored, verified 2026-10-26) | Key abuse/quota theft | Public key only, resolved server-side, format-validated; must be restricted to site origins in MapTiler; no secret keys | Unit `resolveMapProvider` rejects malformed keys/ids | Quota cost if the restriction is not configured | Owner |
+| Map tiles (third party) | Viewed area + IP disclosed to MapTiler | Map loads only in "Mappa" mode; disclosure under the map; no map requests in list mode | e2e "map loads lazily" | Needs privacy notice/processor review (D012) | Owner |
+| Device position | Location history, leakage via URL/storage | Only on click, coarse, rounded, in memory; area from position never written to URL/storage | e2e geolocation granted/denied/outside, URL and storage checked | Browser permission UI is out of our control | Eng |
+| `area=` URL param | Malformed/huge input | Strict pattern, length cap, valid ranges, must overlap territory, rounded | Unit `parseArea` negative cases | None known | Eng |
 | Tracking / privacy | Analytics without legal basis | No analytics, cookies or trackers; no geolocation | Manual review (no network calls besides the app) | Privacy notice / legal review still open (D012) | Owner |

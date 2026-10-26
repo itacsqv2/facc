@@ -7,13 +7,21 @@ import { expect, test, type Page } from "@playwright/test";
 const results = (page: Page) => page.getByRole("list", { name: "Risultati" }).locator(":scope > li");
 
 async function openMoreFiltersIfCollapsed(page: Page) {
+  // The catalog streams in after the page shell: wait for it before deciding anything.
+  await expect(page.getByRole("form", { name: "Filtra le attività" })).toBeVisible();
   const toggle = page.getByRole("button", { name: /Altri filtri|Nascondi filtri/ });
   if (!(await toggle.isVisible())) return; // desktop: filters always shown
-  // Retry until hydrated: a click before React attaches handlers does nothing.
-  await expect(async () => {
-    if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
-    await expect(toggle).toHaveAttribute("aria-expanded", "true", { timeout: 500 });
-  }).toPass({ timeout: 10_000 });
+  // Wait until React has hydrated the button (it then carries React props), then click once.
+  // Retrying clicks is wrong: React replays a pre-hydration click, so a retry would close it again.
+  await toggle.evaluate((el) =>
+    new Promise<void>((resolve) => {
+      const ready = () => Object.keys(el).some((key) => key.startsWith("__reactProps"));
+      const tick = () => (ready() ? resolve() : requestAnimationFrame(tick));
+      tick();
+    }),
+  );
+  if ((await toggle.getAttribute("aria-expanded")) !== "true") await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
 }
 
 test.describe("mobile discovery flow (390px)", () => {
@@ -82,9 +90,9 @@ test.describe("mobile discovery flow (390px)", () => {
   });
 
   test("copied search link rebuilds the same state; invalid parameters are normalized away", async ({ page }) => {
-    await page.goto("/?quando=weekend&zona=borgo-esempio&categoria=natura&prezzo=gratis&eta=4");
+    await page.goto("/?quando=weekend&zona=citta-alta-colli&categoria=natura&prezzo=gratis&eta=4");
     await expect(results(page)).toHaveCount(1);
-    await expect(page.getByLabel("Zona DEMO")).toHaveValue("borgo-esempio");
+    await expect(page.getByLabel("Zona DEMO")).toHaveValue("citta-alta-colli");
 
     await page.goto("/?quando=weekend&eta=04&max=7&zona=%3Cscript%3E&categoria=x");
     await expect(results(page)).toHaveCount(6);
