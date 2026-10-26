@@ -1,6 +1,6 @@
 ---
-name: facc-data-quality
-description: Safely model, import, deduplicate, refresh and publish licensed local event data in FACC with source provenance, occurrence lifecycle and human moderation. Use for catalog, ingestion, source integrations or correctness issues.
+name: attorno-data-quality
+description: Safely model, import, deduplicate, refresh and publish licensed local event data in Attorno with source provenance, occurrence lifecycle and human moderation. Use for catalog, ingestion, source integrations or correctness issues.
 ---
 
 Read `docs/DOMAIN_MODEL.md` and source sections 11, 13 and 14 when implementing data workflows.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parseDemoNow } from "@/modules/catalog/demo-clock";
 
-describe("FACC_DEMO_NOW parsing", () => {
+describe("ATTORNO_DEMO_NOW parsing", () => {
   it("accepts a strict UTC ISO instant in demo mode", () => {
     expect(parseDemoNow("2026-10-23T08:00:00.000Z", true)?.toISOString()).toBe("2026-10-23T08:00:00.000Z");
     expect(parseDemoNow("2026-10-23T08:00Z", true)?.toISOString()).toBe("2026-10-23T08:00:00.000Z");

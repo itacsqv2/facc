@@ -1,9 +1,9 @@
 ---
-name: facc-ux
-description: Apply mobile-first local-event discovery UX and accessibility standards in FACC consumer, organizer and admin views. Use for UI design, layout, flows, copy or visual reviews.
+name: attorno-ux
+description: Apply mobile-first local-event discovery UX and accessibility standards in Attorno consumer, organizer and admin views. Use for UI design, layout, flows, copy or visual reviews.
 ---
 
-Read `docs/UX.md` and `docs/PRODUCT_BRIEF.md` when touching FACC UI.
+Read `docs/UX.md` and `docs/PRODUCT_BRIEF.md` when touching Attorno UI.
 
 - Prioritize a fast answer to "Cosa facciamo oggi/nel weekend vicino a noi?" over vanity numbers.
 - Public listing and details require no sign-in. Manual locality and time are first-class; device location/map only on request.

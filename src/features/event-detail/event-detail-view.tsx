@@ -179,7 +179,7 @@ export function EventDetailView({ detail, requestedOccurrenceId, nowIso }: Props
           <ShareButton title={event.title} />
         </div>
         <p className="text-xs text-muted">
-          FACC non vende biglietti e non raccoglie pagamenti. I preferiti restano solo su questo dispositivo.
+          Attorno non vende biglietti e non raccoglie pagamenti. I preferiti restano solo su questo dispositivo.
         </p>
       </Card>
     </article>

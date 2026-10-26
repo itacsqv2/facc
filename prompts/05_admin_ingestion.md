@@ -1,6 +1,6 @@
 # PROMPT 05 - MODERATION + AUTHORIZED CSV IMPORT
 
-Read `CLAUDE.md`, `docs/DOMAIN_MODEL.md`, `docs/ARCHITECTURE.md`, `docs/PRODUCT_BRIEF.md`; use `/facc-data-quality` principles. Inspect existing code/data and keep the slice bounded.
+Read `CLAUDE.md`, `docs/DOMAIN_MODEL.md`, `docs/ARCHITECTURE.md`, `docs/PRODUCT_BRIEF.md`; use `/attorno-data-quality` principles. Inspect existing code/data and keep the slice bounded.
 
 Implement only:
 - Restricted admin review dashboard for event/report moderation, corrections and explicit resolution reasoning, with audit record.

@@ -7,5 +7,5 @@ import { parseDemoNow } from "./demo-clock";
  * (see `parseDemoNow`), otherwise the current server time.
  */
 export function requestNow(): Date {
-  return parseDemoNow(process.env.FACC_DEMO_NOW, activeTerritory.isDemo) ?? new Date();
+  return parseDemoNow(process.env.ATTORNO_DEMO_NOW, activeTerritory.isDemo) ?? new Date();
 }

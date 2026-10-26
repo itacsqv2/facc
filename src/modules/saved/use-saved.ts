@@ -1,19 +1,26 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
-import { readSaved, SAVED_STORAGE_KEY, toggleSaved, writeSaved, type SavedItem } from "./saved-items";
+import { migrateLegacySaved, readSaved, SAVED_STORAGE_KEY, toggleSaved, writeSaved, type SavedItem } from "./saved-items";
 
 type Snapshot = { status: "loading" | "ready" | "unavailable"; items: SavedItem[] };
 
 const LOADING: Snapshot = { status: "loading", items: [] };
-const CHANGE_EVENT = "facc:saved-change";
+const CHANGE_EVENT = "attorno:saved-change";
 
 let cachedRaw: string | null | undefined;
 let cachedSnapshot: Snapshot = LOADING;
 
+let migrated = false;
+
 function getStorage(): Storage | null {
   try {
-    return window.localStorage;
+    const storage = window.localStorage;
+    if (!migrated) {
+      migrated = true;
+      migrateLegacySaved(storage);
+    }
+    return storage;
   } catch {
     return null;
   }

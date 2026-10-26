@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { isSaved, parseSaved, readSaved, SAVED_STORAGE_KEY, serializeSaved, toggleSaved, writeSaved } from "@/modules/saved/saved-items";
+import {
+  isSaved,
+  LEGACY_SAVED_STORAGE_KEY,
+  migrateLegacySaved,
+  parseSaved,
+  readSaved,
+  SAVED_STORAGE_KEY,
+  serializeSaved,
+  toggleSaved,
+  writeSaved,
+} from "@/modules/saved/saved-items";
 
 const NOW = new Date("2026-10-23T08:00:00Z");
 const target = { slug: "burattini-in-piazza", occurrenceId: "occ-burattini-1" };
@@ -9,6 +19,7 @@ function memoryStorage() {
   return {
     getItem: (key: string) => data.get(key) ?? null,
     setItem: (key: string, value: string) => void data.set(key, value),
+    removeItem: (key: string) => void data.delete(key),
     data,
   };
 }
@@ -58,5 +69,24 @@ describe("saved items", () => {
     expect(readSaved(blocked)).toEqual({ ok: false, items: [] });
     expect(writeSaved(blocked, [])).toBe(false);
     expect(writeSaved(undefined, [])).toBe(false);
+  });
+
+  it("migrates bookmarks saved under the pre-rename key once, without overwriting current data", () => {
+    expect(LEGACY_SAVED_STORAGE_KEY).toBe("facc:saved:v1");
+    expect(SAVED_STORAGE_KEY).toBe("attorno:saved:v1");
+    const storage = memoryStorage();
+    storage.setItem(LEGACY_SAVED_STORAGE_KEY, serializeSaved(toggleSaved([], target, NOW)));
+    migrateLegacySaved(storage);
+    expect(readSaved(storage).items).toEqual([{ ...target, savedAt: NOW.toISOString() }]);
+    expect(storage.data.has(LEGACY_SAVED_STORAGE_KEY)).toBe(false);
+
+    const both = memoryStorage();
+    both.setItem(SAVED_STORAGE_KEY, "[]");
+    both.setItem(LEGACY_SAVED_STORAGE_KEY, serializeSaved(toggleSaved([], target, NOW)));
+    migrateLegacySaved(both);
+    expect(readSaved(both).items).toEqual([]);
+    expect(both.data.has(LEGACY_SAVED_STORAGE_KEY)).toBe(false);
+
+    expect(() => migrateLegacySaved(null)).not.toThrow();
   });
 });

@@ -1,8 +1,8 @@
 {
-  "name": "facc",
+  "name": "attorno",
   "version": "0.1.0",
   "private": true,
-  "description": "FACC - scoperta di eventi locali affidabili (prototipo, modalità DEMO)",
+  "description": "Attorno - scoperta di eventi locali affidabili (prototipo, modalità DEMO)",
   "engines": {
     "node": ">=24"
   },

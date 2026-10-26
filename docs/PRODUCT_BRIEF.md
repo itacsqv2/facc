@@ -1,4 +1,4 @@
-# FACC - product brief (business plan -> implementation)
+# Attorno - product brief (business plan -> implementation)
 
 ## Opportunity / user job
 Consumer intent: "Choose a credible activity for a real day, reachable from my area, compatible with time, age, price, booking requirements and practical constraints." The public experience must optimize **time to useful choice**, not list length. An organizer wants to **publish once, correct quickly and distribute** with less manual effort. A territorial network may pay to coordinate supply from multiple local entities.

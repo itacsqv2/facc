@@ -140,7 +140,7 @@ test.describe("deep links and status pages", () => {
     await page.goto("/salvati");
     await page.evaluate(() =>
       localStorage.setItem(
-        "facc:saved:v1",
+        "attorno:saved:v1",
         JSON.stringify([{ slug: "burattini-in-piazza", occurrenceId: "occ-burattini-1", savedAt: "2026-10-22T08:00:00.000Z" }]),
       ),
     );

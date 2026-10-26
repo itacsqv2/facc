@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * FACC design tokens (provisional identity, D008).
+ * Attorno design tokens (provisional identity, D008).
  * Raw values live in CSS custom properties; Tailwind utilities are generated
  * from them via @theme. Contrast ratios (WCAG 2.x) verified for text pairs:
  *   ink/canvas 12.8:1 · muted/canvas 5.5:1 (>= 4.9:1 on every surface) · accent/canvas 6.2:1
@@ -10,78 +10,78 @@
  * `--color-border` (1.2:1) is decorative only: never the sole boundary of a control.
  */
 :root {
-  --facc-canvas: #faf8f2;
-  --facc-surface: #ffffff;
-  --facc-surface-sunken: #f2f0e8;
-  --facc-ink: #21312d;
-  --facc-muted: #5a685f; /* darkened from UX.md #65736B, which failed AA on sunken/soft surfaces */
-  --facc-border: #dce4db;
-  --facc-border-control: #76857c;
-  --facc-accent: #17695c;
-  --facc-accent-strong: #0f5247;
-  --facc-accent-soft: #e3efea;
-  --facc-sun: #e9b950;
-  --facc-sun-strong: #d9a536;
-  --facc-sun-soft: #fbefcb;
-  --facc-warning: #8a4b08;
-  --facc-warning-soft: #fcebd9;
-  --facc-disabled-bg: #eef1ec;
-  --facc-disabled-ink: #6b7871;
+  --attorno-canvas: #faf8f2;
+  --attorno-surface: #ffffff;
+  --attorno-surface-sunken: #f2f0e8;
+  --attorno-ink: #21312d;
+  --attorno-muted: #5a685f; /* darkened from UX.md #65736B, which failed AA on sunken/soft surfaces */
+  --attorno-border: #dce4db;
+  --attorno-border-control: #76857c;
+  --attorno-accent: #17695c;
+  --attorno-accent-strong: #0f5247;
+  --attorno-accent-soft: #e3efea;
+  --attorno-sun: #e9b950;
+  --attorno-sun-strong: #d9a536;
+  --attorno-sun-soft: #fbefcb;
+  --attorno-warning: #8a4b08;
+  --attorno-warning-soft: #fcebd9;
+  --attorno-disabled-bg: #eef1ec;
+  --attorno-disabled-ink: #6b7871;
   /* Category surfaces: decorative backgrounds, always paired with ink text (>= 11:1). */
-  --facc-plum-soft: #ece6f0;
-  --facc-sky-soft: #e2ecf3;
-  --facc-clay-soft: #f6e3da;
+  --attorno-plum-soft: #ece6f0;
+  --attorno-sky-soft: #e2ecf3;
+  --attorno-clay-soft: #f6e3da;
 
-  --facc-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  --facc-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --attorno-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --attorno-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --facc-radius-sm: 0.5rem;
-  --facc-radius-md: 0.875rem;
-  --facc-radius-lg: 1.25rem;
-  --facc-shadow-card: 0 1px 2px rgb(33 49 45 / 0.06), 0 8px 24px -12px rgb(33 49 45 / 0.18);
+  --attorno-radius-sm: 0.5rem;
+  --attorno-radius-md: 0.875rem;
+  --attorno-radius-lg: 1.25rem;
+  --attorno-shadow-card: 0 1px 2px rgb(33 49 45 / 0.06), 0 8px 24px -12px rgb(33 49 45 / 0.18);
 
   /* Space scale (4px grid) and page gutters */
-  --facc-gutter: 1rem;
-  --facc-content-max: 72rem;
+  --attorno-gutter: 1rem;
+  --attorno-content-max: 72rem;
 
   color-scheme: light;
 }
 
 @media (min-width: 40rem) {
   :root {
-    --facc-gutter: 1.5rem;
+    --attorno-gutter: 1.5rem;
   }
 }
 
 @theme inline {
-  --color-canvas: var(--facc-canvas);
-  --color-surface: var(--facc-surface);
-  --color-surface-sunken: var(--facc-surface-sunken);
-  --color-ink: var(--facc-ink);
-  --color-muted: var(--facc-muted);
-  --color-border: var(--facc-border);
-  --color-border-control: var(--facc-border-control);
-  --color-accent: var(--facc-accent);
-  --color-accent-strong: var(--facc-accent-strong);
-  --color-accent-soft: var(--facc-accent-soft);
-  --color-sun: var(--facc-sun);
-  --color-sun-strong: var(--facc-sun-strong);
-  --color-sun-soft: var(--facc-sun-soft);
-  --color-warning: var(--facc-warning);
-  --color-warning-soft: var(--facc-warning-soft);
-  --color-disabled-bg: var(--facc-disabled-bg);
-  --color-disabled-ink: var(--facc-disabled-ink);
-  --color-plum-soft: var(--facc-plum-soft);
-  --color-sky-soft: var(--facc-sky-soft);
-  --color-clay-soft: var(--facc-clay-soft);
+  --color-canvas: var(--attorno-canvas);
+  --color-surface: var(--attorno-surface);
+  --color-surface-sunken: var(--attorno-surface-sunken);
+  --color-ink: var(--attorno-ink);
+  --color-muted: var(--attorno-muted);
+  --color-border: var(--attorno-border);
+  --color-border-control: var(--attorno-border-control);
+  --color-accent: var(--attorno-accent);
+  --color-accent-strong: var(--attorno-accent-strong);
+  --color-accent-soft: var(--attorno-accent-soft);
+  --color-sun: var(--attorno-sun);
+  --color-sun-strong: var(--attorno-sun-strong);
+  --color-sun-soft: var(--attorno-sun-soft);
+  --color-warning: var(--attorno-warning);
+  --color-warning-soft: var(--attorno-warning-soft);
+  --color-disabled-bg: var(--attorno-disabled-bg);
+  --color-disabled-ink: var(--attorno-disabled-ink);
+  --color-plum-soft: var(--attorno-plum-soft);
+  --color-sky-soft: var(--attorno-sky-soft);
+  --color-clay-soft: var(--attorno-clay-soft);
 
-  --font-display: var(--facc-font-display);
-  --font-sans: var(--facc-font-sans);
+  --font-display: var(--attorno-font-display);
+  --font-sans: var(--attorno-font-sans);
 
-  --radius-sm: var(--facc-radius-sm);
-  --radius-md: var(--facc-radius-md);
-  --radius-lg: var(--facc-radius-lg);
-  --shadow-card: var(--facc-shadow-card);
+  --radius-sm: var(--attorno-radius-sm);
+  --radius-md: var(--attorno-radius-md);
+  --radius-lg: var(--attorno-radius-lg);
+  --shadow-card: var(--attorno-shadow-card);
 
   /* Type scale: fluid display sizes, fixed UI sizes */
   --text-display: clamp(2rem, 1.4rem + 3vw, 3.5rem);
@@ -97,9 +97,9 @@
   }
 
   body {
-    background-color: var(--facc-canvas);
-    color: var(--facc-ink);
-    font-family: var(--facc-font-sans);
+    background-color: var(--attorno-canvas);
+    color: var(--attorno-ink);
+    font-family: var(--attorno-font-sans);
     line-height: 1.55;
     overflow-wrap: break-word;
   }
@@ -107,12 +107,12 @@
   h1,
   h2,
   h3 {
-    font-family: var(--facc-font-display);
+    font-family: var(--attorno-font-display);
     text-wrap: balance;
   }
 
   :focus-visible {
-    outline: 3px solid var(--facc-accent);
+    outline: 3px solid var(--attorno-accent);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -130,15 +130,15 @@
 
 @utility container-page {
   width: 100%;
-  max-width: var(--facc-content-max);
+  max-width: var(--attorno-content-max);
   margin-inline: auto;
-  padding-inline: var(--facc-gutter);
+  padding-inline: var(--attorno-gutter);
 }
 
 /* Brief highlight when the result count changes (disabled by reduced-motion rule above). */
-@keyframes facc-flash {
+@keyframes attorno-flash {
   from {
-    background-color: var(--facc-sun-soft);
+    background-color: var(--attorno-sun-soft);
   }
   to {
     background-color: transparent;
@@ -146,5 +146,5 @@
 }
 
 @utility animate-flash {
-  animation: facc-flash 900ms ease-out;
+  animation: attorno-flash 900ms ease-out;
 }

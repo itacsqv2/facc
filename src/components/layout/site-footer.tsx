@@ -16,7 +16,7 @@ export function SiteFooter() {
           <ul className="space-y-1 text-muted">
             <li>Prototipo in sviluppo</li>
             <li>Area {activeTerritory.isDemo ? "dimostrativa" : "attiva"}: {activeTerritory.name}</li>
-            <li>Nessun acquisto o prenotazione su FACC</li>
+            <li>Nessun acquisto o prenotazione su Attorno</li>
           </ul>
         </div>
         <div className="space-y-2">

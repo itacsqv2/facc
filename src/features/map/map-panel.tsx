@@ -87,7 +87,7 @@ export function MapPanel({ results, provider, territoryBounds, area, timeZone, o
     setGeo("locating");
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        // Used once, in memory, rounded to ~100 m; never stored or sent to FACC.
+        // Used once, in memory, rounded to ~100 m; never stored or sent to Attorno.
         const point = [Number(position.coords.longitude.toFixed(3)), Number(position.coords.latitude.toFixed(3))] as const;
         if (!inBBox(point, territoryBounds)) {
           setGeo("outside");
@@ -163,7 +163,7 @@ export function MapPanel({ results, provider, territoryBounds, area, timeZone, o
 
       <section
         aria-label="Mappa delle attività DEMO"
-        className="relative -mx-[var(--facc-gutter)] h-[70vh] min-h-96 overflow-hidden border-y border-border bg-surface-sunken sm:mx-0 sm:h-[36rem] sm:rounded-lg sm:border"
+        className="relative -mx-[var(--attorno-gutter)] h-[70vh] min-h-96 overflow-hidden border-y border-border bg-surface-sunken sm:mx-0 sm:h-[36rem] sm:rounded-lg sm:border"
       >
         {canvas}
         <p className="pointer-events-none absolute top-3 left-3 z-10 rounded-full bg-ink px-2.5 py-0.5 text-xs font-bold text-canvas">
@@ -219,7 +219,7 @@ export function MapPanel({ results, provider, territoryBounds, area, timeZone, o
         {provider && (
           <p>
             La mappa si carica solo in questa modalità. Le immagini cartografiche arrivano da MapTiler, che riceve la zona
-            visualizzata e l&apos;indirizzo IP del dispositivo; FACC non salva la tua posizione.
+            visualizzata e l&apos;indirizzo IP del dispositivo; Attorno non salva la tua posizione.
           </p>
         )}
         <p>

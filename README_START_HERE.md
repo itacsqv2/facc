@@ -1,11 +1,11 @@
-# FACC / Claude Code - starter kit
+# Attorno / Claude Code - starter kit
 
 This ZIP is **not a finished application**. It is a project-control kit: a persistent `CLAUDE.md`, reusable Claude Code skills, product/technical decisions and seven prompts for incremental construction.
 
-## Installation into the existing `facc` repository
-1. Clone or open the existing `facc` repository locally in VS Code or a terminal. **Do not create a second repository**.
+## Installation into the existing `attorno` repository
+1. Clone or open the existing `attorno` repository locally in VS Code or a terminal. **Do not create a second repository**.
 2. Check `git status` and back up/merge any file that already exists under the same name. The kit does not contain app source code or `.env` files.
-3. Extract the ZIP contents **directly at the repository root** (not inside an extra `facc_claude_kit/` folder). The root should contain `CLAUDE.md`, `.claude/`, `docs/`, `prompts/`.
+3. Extract the ZIP contents **directly at the repository root** (not inside an extra `attorno_claude_kit/` folder). The root should contain `CLAUDE.md`, `.claude/`, `docs/`, `prompts/`.
 4. Run `git status` again to inspect added files. Do not commit yet if you want to review the project direction first.
 5. Run `claude` in the repo root (or open a Claude Code session targeting that folder).
 6. Copy the entire content of `prompts/00_audit_and_plan.md` into Claude Code, with **plan mode** enabled. This prompt is intentionally read-only.
@@ -13,12 +13,12 @@ This ZIP is **not a finished application**. It is a project-control kit: a persi
 
 ## Files you will use
 - `CLAUDE.md`: permanent project principles and safety constraints.
-- `.claude/skills/facc-plan/`: `/facc-plan` for bounded planning.
-- `.claude/skills/facc-build/`: `/facc-build` for one vertical slice with checks.
-- `.claude/skills/facc-review/`: `/facc-review` for independent acceptance review.
-- `.claude/skills/facc-ux/`: UX constraints invoked as relevant.
-- `.claude/skills/facc-data-quality/`: ingestion, rights and provenance rules.
-- `.claude/skills/facc-security-privacy/`: isolation, privacy and threat review.
+- `.claude/skills/attorno-plan/`: `/attorno-plan` for bounded planning.
+- `.claude/skills/attorno-build/`: `/attorno-build` for one vertical slice with checks.
+- `.claude/skills/attorno-review/`: `/attorno-review` for independent acceptance review.
+- `.claude/skills/attorno-ux/`: UX constraints invoked as relevant.
+- `.claude/skills/attorno-data-quality/`: ingestion, rights and provenance rules.
+- `.claude/skills/attorno-security-privacy/`: isolation, privacy and threat review.
 - `docs/`: product requirements, architectural choices, domain model, UX, metrics, backlog and gates.
 - `prompts/`: ordered, copy/paste-ready prompts (`00` to `07`).
 - `docs/source/`: business plan HTML (unaltered source supplied by the project owner).

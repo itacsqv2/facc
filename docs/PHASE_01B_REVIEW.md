@@ -3,7 +3,7 @@
 Data: 2026-10-23. Nessun commit, push o deploy.
 
 ## Differenze rispetto al prompt
-- Il prompt `prompts/01B_discovery_experience.md` non esiste nella repo: è stato letto da `~/Downloads/facc_prompt_01B_discovery_experience.md`.
+- Il prompt `prompts/01B_discovery_experience.md` non esiste nella repo: è stato letto da `~/Downloads/attorno_prompt_01B_discovery_experience.md`.
 - Prima di iniziare `package.json` dichiarava `eslint-config-next@^14.2.35` (downgrade fatto dopo la 01A, presumibilmente con `npm audit fix --force`, non da questa sessione). Con la v14 `npm run lint` falliva (exit 2). Ripristinata `eslint-config-next@16.4.2`, allineata a `next@16.4.2`.
 - `dynamicParams = false` non è compatibile con `cacheComponents`: per avere 404 reali sugli slug non pubblicabili si usa `src/proxy.ts`.
 - Vitest 5 esclude Node 25 dai motori supportati: usata Vitest 4.1.12 (supporta Node 24 e 25).
@@ -11,7 +11,7 @@ Data: 2026-10-23. Nessun commit, push o deploy.
 ## Cosa è stato costruito
 - Catalogo DEMO subito visibile: hero ridotto, filtri Quando (Oggi / Questo weekend), zona DEMO (3 zone fittizie), categoria, costo, spesa massima, età; conteggio con annuncio `aria-live`, evidenza visiva al cambio, `Rimuovi filtri`, stato vuoto. Filtri sincronizzati nell'URL (`?quando=weekend&categoria=natura...`), validati lato server.
 - Scheda `/eventi/[slug]?data=<occorrenza>`: quando (Europe/Rome), dove, per chi, costo, prenotazione, accessibilità, organizzatore e contatto fittizi, fonte sintetica, "Ultima conferma: Dato DEMO non verificato", altre date della serie con il loro stato. CTA: "Prenotazione non disponibile nella demo"; annullato: "Evento annullato", senza CTA.
-- Preferiti in `localStorage` (`facc:saved:v1`, solo slug + id occorrenza), vista `/salvati` con stato aggiornato (annullato/terminato/non più disponibile) e messaggio se lo storage è bloccato.
+- Preferiti in `localStorage` (`attorno:saved:v1`, solo slug + id occorrenza), vista `/salvati` con stato aggiornato (annullato/terminato/non più disponibile) e messaggio se lo storage è bloccato.
 - Condivisione: Web Share API se presente, altrimenti copia del link reale; messaggi di esito.
 - 404 reale (HTTP 404) per slug inesistenti o con sole bozze. Tutte le pagine `noindex`, nessun JSON-LD.
 
@@ -28,7 +28,7 @@ Data: 2026-10-23. Nessun commit, push o deploy.
 | Elemento | Stato |
 |---|---|
 | Eventi, luoghi, organizzatori, contatti (`.invalid`), zone | Fittizi, marcati DEMO su banner, card e scheda |
-| Date | Generate in modo deterministico da un istante di riferimento (`FACC_DEMO_NOW` nei test, ora del server altrimenti) |
+| Date | Generate in modo deterministico da un istante di riferimento (`ATTORNO_DEMO_NOW` nei test, ora del server altrimenti) |
 | Prenotazione, mappa, GPS, login, organizer | Non presenti / esplicitamente non disponibili |
 | Preferiti e condivisione | Reali, solo nel browser |
 

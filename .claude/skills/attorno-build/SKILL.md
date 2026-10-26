@@ -1,6 +1,6 @@
 ---
-name: facc-build
-description: Implement exactly one approved FACC vertical slice with tests, proof of verification, documentation updates and no scope creep. Only use when the user explicitly invokes it to modify code.
+name: attorno-build
+description: Implement exactly one approved Attorno vertical slice with tests, proof of verification, documentation updates and no scope creep. Only use when the user explicitly invokes it to modify code.
 disable-model-invocation: true
 argument-hint: "<approved slice ID or feature>"
 ---

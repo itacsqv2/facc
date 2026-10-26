@@ -15,7 +15,7 @@ const TZ = activeTerritory.timeZone;
 export const demoSource: Source = {
   id: "demo-synthetic",
   kind: "demo_synthetic",
-  label: "Dati sintetici FACC (DEMO)",
+  label: "Dati sintetici Attorno (DEMO)",
   lastConfirmedAt: null,
 };
 
