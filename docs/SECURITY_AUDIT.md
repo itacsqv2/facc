@@ -1,4 +1,4 @@
-# Attorno - security audit notes
+# Kesifa - security audit notes
 
 ## Exception E-001: GHSA-vfj7-8cjw-p6xm (braces), dev-only
 
@@ -28,7 +28,7 @@
 | `/eventi/[slug]?data=` | Enumeration of drafts, cross-event ids, soft-404 indexing | Single repository eligibility check before streaming; drafts never leave the repository; noindex everywhere | HTTP matrix: unknown, draft, foreign, empty, repeated `data` -> 404 | Phase 02 must keep the same check against the DB | Eng |
 | `localStorage` bookmarks | Tampered/corrupt data, storage blocked, personal data | Strict id pattern, dedupe, 100-item cap, try/catch; stores only slug + occurrence id + timestamp (no location, no child data) | Unit corrupt/blocked storage; e2e unavailable bookmark | Shared device can see bookmarks (local by design) | Eng |
 | Share | Leaking data to third parties | Web Share / clipboard of the page URL only; no external service | e2e clipboard fallback | Native share sheet untested | Eng |
-| `ATTORNO_DEMO_NOW` | Shifting dates of a real catalog | Honoured only for DEMO territory and strict UTC ISO | Unit `demo-clock.test.ts` | Misconfiguration in a demo deploy | Owner |
+| `KESIFA_DEMO_NOW` | Shifting dates of a real catalog | Honoured only for DEMO territory and strict UTC ISO | Unit `demo-clock.test.ts` | Misconfiguration in a demo deploy | Owner |
 | Outbound links / booking | Fake purchase, phishing | No outbound booking links in DEMO; contacts use `.invalid` | e2e "Prenotazione non disponibile nella demo", no CTA on cancelled | Real links in Phase 02 need URL allow-listing | Eng |
 | Map provider key (real key in .env.local, git-ignored, verified 2026-10-26) | Key abuse/quota theft | Public key only, resolved server-side, format-validated; must be restricted to site origins in MapTiler; no secret keys | Unit `resolveMapProvider` rejects malformed keys/ids | Quota cost if the restriction is not configured | Owner |
 | Map tiles (third party) | Viewed area + IP disclosed to MapTiler | Map loads only in "Mappa" mode; disclosure under the map; no map requests in list mode | e2e "map loads lazily" | Needs privacy notice/processor review (D012) | Owner |

@@ -1,3 +1,5 @@
+import { siteConfig } from "@/config/site";
+
 const steps = [
   {
     title: "Scegli zona e giorno",
@@ -9,7 +11,7 @@ const steps = [
   },
   {
     title: "Prenota dall'organizzatore",
-    text: "Attorno non vende biglietti: ti porta alla pagina o al contatto ufficiale di chi organizza.",
+    text: `${siteConfig.name} non vende biglietti: ti porta alla pagina o al contatto ufficiale di chi organizza.`,
   },
 ] as const;
 

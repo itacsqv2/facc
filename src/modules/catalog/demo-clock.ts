@@ -1,5 +1,5 @@
 /**
- * Pinned demo clock (`ATTORNO_DEMO_NOW`), pure and testable.
+ * Pinned demo clock (`KESIFA_DEMO_NOW`), pure and testable.
  *
  * Accepted only when the active territory is a DEMO one and the value is a strict
  * UTC ISO 8601 instant (e.g. 2026-10-23T08:00:00.000Z) between 2020 and 2099.

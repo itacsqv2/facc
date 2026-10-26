@@ -1,6 +1,6 @@
 ---
-name: attorno-review
-description: Independently verify a completed Attorno feature against business-plan acceptance, real tests, accessibility, data quality, privacy, authorization and regression risk; report blockers without rewriting features.
+name: kesifa-review
+description: Independently verify a completed Kesifa feature against business-plan acceptance, real tests, accessibility, data quality, privacy, authorization and regression risk; report blockers without rewriting features.
 disable-model-invocation: true
 argument-hint: "<slice ID or feature>"
 context: fork

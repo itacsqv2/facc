@@ -1,8 +1,8 @@
 {
-  "name": "attorno",
+  "name": "kesifa",
   "version": "0.1.0",
   "private": true,
-  "description": "Attorno - scoperta di eventi locali affidabili (prototipo, modalità DEMO)",
+  "description": "Kesifa - scoperta di eventi locali affidabili (prototipo, modalità DEMO)",
   "engines": {
     "node": ">=24"
   },

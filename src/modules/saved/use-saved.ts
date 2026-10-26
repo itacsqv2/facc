@@ -6,7 +6,7 @@ import { migrateLegacySaved, readSaved, SAVED_STORAGE_KEY, toggleSaved, writeSav
 type Snapshot = { status: "loading" | "ready" | "unavailable"; items: SavedItem[] };
 
 const LOADING: Snapshot = { status: "loading", items: [] };
-const CHANGE_EVENT = "attorno:saved-change";
+const CHANGE_EVENT = "kesifa:saved-change";
 
 let cachedRaw: string | null | undefined;
 let cachedSnapshot: Snapshot = LOADING;

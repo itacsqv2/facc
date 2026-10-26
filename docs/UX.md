@@ -1,4 +1,4 @@
-# Attorno UX and provisional visual direction
+# Kesifa UX and provisional visual direction
 
 ## Core promise
 Answer the actual consumer question in seconds: **"Cosa facciamo oggi o nel weekend, vicino a noi?"** Do not force onboarding before showing useful choices. Use concise Italian, warm but factual language. Prioritize practical data over social vanity metrics.

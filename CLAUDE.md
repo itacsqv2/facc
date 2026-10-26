@@ -1,7 +1,7 @@
-# Attorno - persistent project instructions
+# Kesifa - persistent project instructions
 
 ## Mission and source of truth
-Build Attorno: a reliable, local-first **event discovery platform**, initially for families and nearby cultural activities. Its core promise is not "all events" but "find a realistic, verified activity I can attend". The business plan in `docs/source/business_plan_event_platform_full.html` is strategic source material; `docs/PRODUCT_BRIEF.md` is its compact operational summary. Follow explicit decisions recorded in `docs/DECISIONS.md`. Do not present business-plan assumptions as validated facts.
+Build Kesifa: a reliable, local-first **event discovery platform**, initially for families and nearby cultural activities. Its core promise is not "all events" but "find a realistic, verified activity I can attend". The business plan in `docs/source/business_plan_event_platform_full.html` is strategic source material; `docs/PRODUCT_BRIEF.md` is its compact operational summary. Follow explicit decisions recorded in `docs/DECISIONS.md`. Do not present business-plan assumptions as validated facts.
 
 ## Scope and launch sequence
 - Start with **one configurable local catchment**, not Italy-wide coverage. Bergamo and Bologna were candidate hypotheses in the plan; neither is selected.
@@ -22,7 +22,7 @@ Build Attorno: a reliable, local-first **event discovery platform**, initially f
 - No ingestion or publication of third-party descriptions, images, feeds or events without a documented permission/license or another reviewed legal basis. Public availability does NOT grant reuse rights; no indiscriminate scraping.
 - Keep source owner, allowed fields/media, attribution terms, license validity, import audit and last verification. Where information is unknown, say "not verified" rather than inventing it.
 - Organizer-verified updates take precedence over stale imports; every significant change should be auditable. Cancellation and expiry must propagate to all public views.
-- External booking links lead to partners; Attorno does not take payment for event tickets in MVP.
+- External booking links lead to partners; Kesifa does not take payment for event tickets in MVP.
 
 ## Security and privacy by design
 - No mandatory consumer sign-in; manual location first, device geolocation only on explicit interaction; never maintain GPS history.

@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 /** Minimal offline style: background only, no tiles, no glyphs. */
 export const BLANK_STYLE = {
   version: 8,
-  name: "attorno-e2e-blank",
+  name: "kesifa-e2e-blank",
   sources: {},
   layers: [{ id: "background", type: "background", paint: { "background-color": "#e3efea" } }],
 };
@@ -11,7 +11,7 @@ export const BLANK_STYLE = {
 /** Style whose raster tiles all fail: the style itself is fine. */
 const FAILING_TILES_STYLE = {
   version: 8,
-  name: "attorno-e2e-failing-tiles",
+  name: "kesifa-e2e-failing-tiles",
   sources: { base: { type: "raster", tiles: ["https://api.maptiler.com/tiles/e2e/{z}/{x}/{y}.png"], tileSize: 256 } },
   layers: [{ id: "base", type: "raster", source: "base" }],
 };

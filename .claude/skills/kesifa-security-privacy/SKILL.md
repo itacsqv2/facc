@@ -1,6 +1,6 @@
 ---
-name: attorno-security-privacy
-description: Audit or implement Attorno authorization, multi-tenant isolation, GDPR-aware data minimization, tracking/consent constraints and secure import/upload behavior. Use for auth, API, admin, analytics, personal data and deployment-readiness work.
+name: kesifa-security-privacy
+description: Audit or implement Kesifa authorization, multi-tenant isolation, GDPR-aware data minimization, tracking/consent constraints and secure import/upload behavior. Use for auth, API, admin, analytics, personal data and deployment-readiness work.
 ---
 
 Read `CLAUDE.md`, `docs/DOMAIN_MODEL.md` and relevant section 15 of the source plan.

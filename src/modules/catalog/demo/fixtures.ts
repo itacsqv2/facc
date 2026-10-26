@@ -9,13 +9,14 @@
 import { activeTerritory } from "@/config/territory";
 import { addDays, localDateKey, weekendDays, zonedTimeToUtc, type DateKey } from "../time";
 import type { Event, Occurrence, OccurrenceStatus, Organizer, Source, Venue } from "../types";
+import { siteConfig } from "@/config/site";
 
 const TZ = activeTerritory.timeZone;
 
 export const demoSource: Source = {
   id: "demo-synthetic",
   kind: "demo_synthetic",
-  label: "Dati sintetici Attorno (DEMO)",
+  label: `Dati sintetici ${siteConfig.name} (DEMO)`,
   lastConfirmedAt: null,
 };
 

@@ -5,7 +5,7 @@
 
 export type SavedItem = { slug: string; occurrenceId: string; savedAt: string };
 
-export const SAVED_STORAGE_KEY = "attorno:saved:v1";
+export const SAVED_STORAGE_KEY = "kesifa:saved:v1";
 const MAX_ITEMS = 100;
 const ID_PATTERN = /^[a-z0-9-]{1,120}$/;
 
@@ -67,22 +67,28 @@ export function toggleSaved(
 
 type StorageLike = Pick<Storage, "getItem" | "setItem">;
 
-/** Key used before the rename to Attorno (2026-10-26); migrated once, then removed. */
-export const LEGACY_SAVED_STORAGE_KEY = ["facc", "saved", "v1"].join(":");
+/**
+ * Keys used under previous working names (FACC, then Attorno); migrated once, then removed.
+ * Built with join() so brand renames never rewrite them by accident.
+ */
+export const LEGACY_SAVED_STORAGE_KEYS = [["facc", "saved", "v1"].join(":"), ["attorno", "saved", "v1"].join(":")];
 
 /**
- * Moves bookmarks saved under the legacy key to the current key, without overwriting
+ * Moves bookmarks saved under a legacy key to the current key, without overwriting
  * existing current data. Never throws (storage may be blocked).
  */
 export function migrateLegacySaved(storage: (StorageLike & Pick<Storage, "removeItem">) | null | undefined): void {
   if (!storage) return;
   try {
-    const legacy = storage.getItem(LEGACY_SAVED_STORAGE_KEY);
-    if (legacy === null) return;
-    if (storage.getItem(SAVED_STORAGE_KEY) === null) {
-      storage.setItem(SAVED_STORAGE_KEY, serializeSaved(parseSaved(legacy)));
+    // Most recent legacy key first: it holds the newest bookmarks.
+    for (const key of [...LEGACY_SAVED_STORAGE_KEYS].reverse()) {
+      const legacy = storage.getItem(key);
+      if (legacy === null) continue;
+      if (storage.getItem(SAVED_STORAGE_KEY) === null) {
+        storage.setItem(SAVED_STORAGE_KEY, serializeSaved(parseSaved(legacy)));
+      }
+      storage.removeItem(key);
     }
-    storage.removeItem(LEGACY_SAVED_STORAGE_KEY);
   } catch {
     // Storage unavailable: nothing to migrate.
   }

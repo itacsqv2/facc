@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Attorno design tokens (provisional identity, D008).
+ * Kesifa design tokens (provisional identity, D008).
  * Raw values live in CSS custom properties; Tailwind utilities are generated
  * from them via @theme. Contrast ratios (WCAG 2.x) verified for text pairs:
  *   ink/canvas 12.8:1 · muted/canvas 5.5:1 (>= 4.9:1 on every surface) · accent/canvas 6.2:1
@@ -10,78 +10,78 @@
  * `--color-border` (1.2:1) is decorative only: never the sole boundary of a control.
  */
 :root {
-  --attorno-canvas: #faf8f2;
-  --attorno-surface: #ffffff;
-  --attorno-surface-sunken: #f2f0e8;
-  --attorno-ink: #21312d;
-  --attorno-muted: #5a685f; /* darkened from UX.md #65736B, which failed AA on sunken/soft surfaces */
-  --attorno-border: #dce4db;
-  --attorno-border-control: #76857c;
-  --attorno-accent: #17695c;
-  --attorno-accent-strong: #0f5247;
-  --attorno-accent-soft: #e3efea;
-  --attorno-sun: #e9b950;
-  --attorno-sun-strong: #d9a536;
-  --attorno-sun-soft: #fbefcb;
-  --attorno-warning: #8a4b08;
-  --attorno-warning-soft: #fcebd9;
-  --attorno-disabled-bg: #eef1ec;
-  --attorno-disabled-ink: #6b7871;
+  --kesifa-canvas: #faf8f2;
+  --kesifa-surface: #ffffff;
+  --kesifa-surface-sunken: #f2f0e8;
+  --kesifa-ink: #21312d;
+  --kesifa-muted: #5a685f; /* darkened from UX.md #65736B, which failed AA on sunken/soft surfaces */
+  --kesifa-border: #dce4db;
+  --kesifa-border-control: #76857c;
+  --kesifa-accent: #17695c;
+  --kesifa-accent-strong: #0f5247;
+  --kesifa-accent-soft: #e3efea;
+  --kesifa-sun: #e9b950;
+  --kesifa-sun-strong: #d9a536;
+  --kesifa-sun-soft: #fbefcb;
+  --kesifa-warning: #8a4b08;
+  --kesifa-warning-soft: #fcebd9;
+  --kesifa-disabled-bg: #eef1ec;
+  --kesifa-disabled-ink: #6b7871;
   /* Category surfaces: decorative backgrounds, always paired with ink text (>= 11:1). */
-  --attorno-plum-soft: #ece6f0;
-  --attorno-sky-soft: #e2ecf3;
-  --attorno-clay-soft: #f6e3da;
+  --kesifa-plum-soft: #ece6f0;
+  --kesifa-sky-soft: #e2ecf3;
+  --kesifa-clay-soft: #f6e3da;
 
-  --attorno-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  --attorno-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --kesifa-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --kesifa-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --attorno-radius-sm: 0.5rem;
-  --attorno-radius-md: 0.875rem;
-  --attorno-radius-lg: 1.25rem;
-  --attorno-shadow-card: 0 1px 2px rgb(33 49 45 / 0.06), 0 8px 24px -12px rgb(33 49 45 / 0.18);
+  --kesifa-radius-sm: 0.5rem;
+  --kesifa-radius-md: 0.875rem;
+  --kesifa-radius-lg: 1.25rem;
+  --kesifa-shadow-card: 0 1px 2px rgb(33 49 45 / 0.06), 0 8px 24px -12px rgb(33 49 45 / 0.18);
 
   /* Space scale (4px grid) and page gutters */
-  --attorno-gutter: 1rem;
-  --attorno-content-max: 72rem;
+  --kesifa-gutter: 1rem;
+  --kesifa-content-max: 72rem;
 
   color-scheme: light;
 }
 
 @media (min-width: 40rem) {
   :root {
-    --attorno-gutter: 1.5rem;
+    --kesifa-gutter: 1.5rem;
   }
 }
 
 @theme inline {
-  --color-canvas: var(--attorno-canvas);
-  --color-surface: var(--attorno-surface);
-  --color-surface-sunken: var(--attorno-surface-sunken);
-  --color-ink: var(--attorno-ink);
-  --color-muted: var(--attorno-muted);
-  --color-border: var(--attorno-border);
-  --color-border-control: var(--attorno-border-control);
-  --color-accent: var(--attorno-accent);
-  --color-accent-strong: var(--attorno-accent-strong);
-  --color-accent-soft: var(--attorno-accent-soft);
-  --color-sun: var(--attorno-sun);
-  --color-sun-strong: var(--attorno-sun-strong);
-  --color-sun-soft: var(--attorno-sun-soft);
-  --color-warning: var(--attorno-warning);
-  --color-warning-soft: var(--attorno-warning-soft);
-  --color-disabled-bg: var(--attorno-disabled-bg);
-  --color-disabled-ink: var(--attorno-disabled-ink);
-  --color-plum-soft: var(--attorno-plum-soft);
-  --color-sky-soft: var(--attorno-sky-soft);
-  --color-clay-soft: var(--attorno-clay-soft);
+  --color-canvas: var(--kesifa-canvas);
+  --color-surface: var(--kesifa-surface);
+  --color-surface-sunken: var(--kesifa-surface-sunken);
+  --color-ink: var(--kesifa-ink);
+  --color-muted: var(--kesifa-muted);
+  --color-border: var(--kesifa-border);
+  --color-border-control: var(--kesifa-border-control);
+  --color-accent: var(--kesifa-accent);
+  --color-accent-strong: var(--kesifa-accent-strong);
+  --color-accent-soft: var(--kesifa-accent-soft);
+  --color-sun: var(--kesifa-sun);
+  --color-sun-strong: var(--kesifa-sun-strong);
+  --color-sun-soft: var(--kesifa-sun-soft);
+  --color-warning: var(--kesifa-warning);
+  --color-warning-soft: var(--kesifa-warning-soft);
+  --color-disabled-bg: var(--kesifa-disabled-bg);
+  --color-disabled-ink: var(--kesifa-disabled-ink);
+  --color-plum-soft: var(--kesifa-plum-soft);
+  --color-sky-soft: var(--kesifa-sky-soft);
+  --color-clay-soft: var(--kesifa-clay-soft);
 
-  --font-display: var(--attorno-font-display);
-  --font-sans: var(--attorno-font-sans);
+  --font-display: var(--kesifa-font-display);
+  --font-sans: var(--kesifa-font-sans);
 
-  --radius-sm: var(--attorno-radius-sm);
-  --radius-md: var(--attorno-radius-md);
-  --radius-lg: var(--attorno-radius-lg);
-  --shadow-card: var(--attorno-shadow-card);
+  --radius-sm: var(--kesifa-radius-sm);
+  --radius-md: var(--kesifa-radius-md);
+  --radius-lg: var(--kesifa-radius-lg);
+  --shadow-card: var(--kesifa-shadow-card);
 
   /* Type scale: fluid display sizes, fixed UI sizes */
   --text-display: clamp(2rem, 1.4rem + 3vw, 3.5rem);
@@ -97,9 +97,9 @@
   }
 
   body {
-    background-color: var(--attorno-canvas);
-    color: var(--attorno-ink);
-    font-family: var(--attorno-font-sans);
+    background-color: var(--kesifa-canvas);
+    color: var(--kesifa-ink);
+    font-family: var(--kesifa-font-sans);
     line-height: 1.55;
     overflow-wrap: break-word;
   }
@@ -107,12 +107,12 @@
   h1,
   h2,
   h3 {
-    font-family: var(--attorno-font-display);
+    font-family: var(--kesifa-font-display);
     text-wrap: balance;
   }
 
   :focus-visible {
-    outline: 3px solid var(--attorno-accent);
+    outline: 3px solid var(--kesifa-accent);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -130,15 +130,15 @@
 
 @utility container-page {
   width: 100%;
-  max-width: var(--attorno-content-max);
+  max-width: var(--kesifa-content-max);
   margin-inline: auto;
-  padding-inline: var(--attorno-gutter);
+  padding-inline: var(--kesifa-gutter);
 }
 
 /* Brief highlight when the result count changes (disabled by reduced-motion rule above). */
-@keyframes attorno-flash {
+@keyframes kesifa-flash {
   from {
-    background-color: var(--attorno-sun-soft);
+    background-color: var(--kesifa-sun-soft);
   }
   to {
     background-color: transparent;
@@ -146,5 +146,5 @@
 }
 
 @utility animate-flash {
-  animation: attorno-flash 900ms ease-out;
+  animation: kesifa-flash 900ms ease-out;
 }

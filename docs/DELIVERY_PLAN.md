@@ -1,4 +1,4 @@
-# Attorno incremental technical delivery plan
+# Kesifa incremental technical delivery plan
 
 Work in self-contained, verifiable **vertical slices**. Perform *Phase 00 first*, and stop for architecture/UX confirmation before proceeding. Later prompts are stored in `prompts/` and may be adapted to the repository audit.
 
@@ -14,10 +14,10 @@ Work in self-contained, verifiable **vertical slices**. Perform *Phase 00 first*
 | 07 | `07_pwa_hardening.md` | App shell/PWA, security and accessibility checks, staging readiness checklist | Privacy/legal/operational blockers disclosed, no production launch automatically. |
 
 ## Routine every slice
-1. `/attorno-plan <bounded problem>` if requirements/implementation are uncertain.
+1. `/kesifa-plan <bounded problem>` if requirements/implementation are uncertain.
 2. Review acceptance criteria, actual paths and migration impact.
-3. `/attorno-build <approved slice>` implements and tests.
-4. `/attorno-review <slice>` inspects objectively with evidence.
+3. `/kesifa-build <approved slice>` implements and tests.
+4. `/kesifa-review <slice>` inspects objectively with evidence.
 5. Record decision in `docs/DECISIONS.md` and backlog state.
 
 ## Execution constraints

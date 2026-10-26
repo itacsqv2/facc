@@ -5,7 +5,7 @@ import { mockMapProvider } from "./support/map";
 // Server clock pinned to Friday 23 Oct 2026, 10:00 Europe/Rome; MapTiler is mocked (no network).
 
 const mapRegion = (page: Page) => page.getByRole("region", { name: "Mappa delle attività DEMO" });
-const markers = (page: Page) => mapRegion(page).locator(".attorno-marker");
+const markers = (page: Page) => mapRegion(page).locator(".kesifa-marker");
 const mapCount = (page: Page) => page.getByText(/\d+ attività sulla mappa/);
 const listItems = (page: Page) => page.getByRole("list", { name: "Risultati" }).locator(":scope > li");
 

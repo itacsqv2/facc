@@ -1,11 +1,11 @@
 # PROMPT 01 - CREATE FIRST RUNNING PUBLIC EXPERIENCE
 
-This is an IMPLEMENTATION task. Read `CLAUDE.md`, `docs/PRODUCT_BRIEF.md`, `docs/UX.md`, `docs/DELIVERY_PLAN.md` and the Phase 00 audit decisions first. Use `/attorno-ux` concepts for UI work. Inspect actual repository changes and existing code before editing.
+This is an IMPLEMENTATION task. Read `CLAUDE.md`, `docs/PRODUCT_BRIEF.md`, `docs/UX.md`, `docs/DELIVERY_PLAN.md` and the Phase 00 audit decisions first. Use `/kesifa-ux` concepts for UI work. Inspect actual repository changes and existing code before editing.
 
-Goal: deliver a **running, attractive, responsive, accessible Attorno public discovery shell** with genuine working local demo interactions and no external service credentials. This is NOT a marketing landing page and NOT a full backend. If the repo is empty and Phase 00 confirmed the recommendation, scaffold Next.js App Router with TypeScript using the agreed package manager. Otherwise extend the viable existing stack without wiping content.
+Goal: deliver a **running, attractive, responsive, accessible Kesifa public discovery shell** with genuine working local demo interactions and no external service credentials. This is NOT a marketing landing page and NOT a full backend. If the repo is empty and Phase 00 confirmed the recommendation, scaffold Next.js App Router with TypeScript using the agreed package manager. Otherwise extend the viable existing stack without wiping content.
 
 Implement only:
-- Small maintainable design tokens, typography and responsive layout; Italian copy and a coherent provisional Attorno look. Do not invent a real logo; a typographic wordmark is acceptable.
+- Small maintainable design tokens, typography and responsive layout; Italian copy and a coherent provisional Kesifa look. Do not invent a real logo; a typographic wordmark is acceptable.
 - Home with region/locality selector (manual, initially demo/local options), `Oggi` and `Questo weekend`, simple category and price/free filters, visible result count and helpful no-result state.
 - Public list/cards with click-through to event detail route using 12-20 local **synthetic fixtures** defined in a typed module. Display a permanent DEMO notice and individual event markings; avoid invented social proof and partner logos.
 - Event detail fields: scheduled occurrence, address, cost state, age suitability, organizer, booking conditions, source marker and last verified marker (use demo source). Provide a safe fake call to action for demo and prevent purchase claims.

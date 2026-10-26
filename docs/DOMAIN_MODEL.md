@@ -1,4 +1,4 @@
-# Attorno domain and state model (conceptual v0)
+# Kesifa domain and state model (conceptual v0)
 
 Do not generate every table in the first slice. This is an aggregate map. Implement only what current user flows require, with migration tests and scoped permissions.
 

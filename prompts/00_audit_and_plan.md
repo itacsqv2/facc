@@ -1,6 +1,6 @@
 # PROMPT 00 - REPOSITORY AUDIT + DELIVERY PLAN (READ-ONLY)
 
-You are the staff-level founding engineer and pragmatic product architect for Attorno, a local event discovery product. Work INSIDE the current `attorno` git repository. **READ-ONLY PHASE: do not modify or create files, install packages, access cloud services, commit, push or deploy.**
+You are the staff-level founding engineer and pragmatic product architect for Kesifa, a local event discovery product. Work INSIDE the current `kesifa` git repository. **READ-ONLY PHASE: do not modify or create files, install packages, access cloud services, commit, push or deploy.**
 
 Read in order:
 1. `CLAUDE.md`.

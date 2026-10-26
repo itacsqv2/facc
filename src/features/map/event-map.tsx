@@ -22,7 +22,7 @@ import type { Category } from "@/modules/catalog/types";
 
 /** Points closer than this at max zoom stay clustered: overlapping venues open a list. */
 const CLUSTER_MAX_ZOOM = 16;
-const SOURCE_ID = "attorno-events";
+const SOURCE_ID = "kesifa-events";
 const LOAD_TIMEOUT_MS = 15_000;
 
 export type MapSelection = { occurrenceIds: string[] };
@@ -66,7 +66,7 @@ function iconSvg(category: Category): SVGSVGElement {
 // No scale/translate utilities here: MapLibre positions markers with an inline transform,
 // and CSS `scale` composes before it, shifting the marker away from its coordinates.
 const MARKER_BASE =
-  "attorno-marker grid place-items-center rounded-full border-2 border-white text-ink shadow-card " +
+  "kesifa-marker grid place-items-center rounded-full border-2 border-white text-ink shadow-card " +
   "hover:border-ink focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 function pointElement(props: EventFeatureProperties, timeZone: string): HTMLButtonElement {

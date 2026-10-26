@@ -18,6 +18,7 @@ import {
 import type { EventDetail, Occurrence } from "@/modules/catalog/types";
 import { SaveButton } from "./save-button";
 import { ShareButton } from "./share-button";
+import { siteConfig } from "@/config/site";
 
 type Props = { detail: EventDetail; requestedOccurrenceId: string | undefined; nowIso: string };
 
@@ -179,7 +180,7 @@ export function EventDetailView({ detail, requestedOccurrenceId, nowIso }: Props
           <ShareButton title={event.title} />
         </div>
         <p className="text-xs text-muted">
-          Attorno non vende biglietti e non raccoglie pagamenti. I preferiti restano solo su questo dispositivo.
+          {siteConfig.name} non vende biglietti e non raccoglie pagamenti. I preferiti restano solo su questo dispositivo.
         </p>
       </Card>
     </article>

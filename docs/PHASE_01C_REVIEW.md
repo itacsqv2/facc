@@ -3,8 +3,8 @@
 Data: 2026-10-23. Nessun commit, push o deploy. Validazione locale su **Node 25.8.1** (Node 24 non installato: compatibilità Node 24 **non verificata**, delegata alla CI non ancora eseguita).
 
 ## Note di contesto
-- Il prompt `prompts/01C_quality_gate.md` non esiste nella repo: letto (senza estrarre) da `Downloads/attorno_claude_starter_kit (3).zip` -> `prompts/attorno_prompt_01C_quality_gate.md`. Anche `prompts/01B_discovery_experience.md` non è presente nella repo.
-- Skill: `attorno-ux` e `attorno-security-privacy` applicate. `attorno-review` ha `disable-model-invocation`: non invocabile dall'assistente; va lanciata dall'owner con `/attorno-review`.
+- Il prompt `prompts/01C_quality_gate.md` non esiste nella repo: letto (senza estrarre) da `Downloads/kesifa_claude_starter_kit (3).zip` -> `prompts/kesifa_prompt_01C_quality_gate.md`. Anche `prompts/01B_discovery_experience.md` non è presente nella repo.
+- Skill: `kesifa-ux` e `kesifa-security-privacy` applicate. `kesifa-review` ha `disable-model-invocation`: non invocabile dall'assistente; va lanciata dall'owner con `/kesifa-review`.
 
 ## Risultati P0 / P1
 | # | Area | Pri | Esito | Correzione |
@@ -18,7 +18,7 @@ Data: 2026-10-23. Nessun commit, push o deploy. Validazione locale su **Node 25.
 | B2 | Budget | P0 | Corretto | Solo prezzi esatti; UNKNOWN e "da" esclusi; etichetta e spiegazione in UI |
 | B3 | URL | P0 | Corretto | Parsing canonico (`05`, `4.5`, `-1`, `18` rifiutati); primo valore dei parametri ripetuti; URL riscritto in forma canonica |
 | C1 | Finestre temporali | P0 | Corretto | Regola unica a sovrapposizione: in corso o futuri, multi-giorno inclusi (prima un evento multi-giorno spariva dal weekend) |
-| C2 | `ATTORNO_DEMO_NOW` | P0 | Corretto | Parser stretto, solo territorio DEMO (D016) |
+| C2 | `KESIFA_DEMO_NOW` | P0 | Corretto | Parser stretto, solo territorio DEMO (D016) |
 | C3 | Stabilità identità/bookmark | P0 | OK | Test: id/slug/stati identici tra date diverse |
 | D1 | HTTP 404 | P0 | Corretto | Rimosso `src/proxy.ts` (duplicava il catalogo); `cacheComponents`/`partialPrefetching` disattivati; un solo controllo in pagina (D014) |
 | E1 | Layout 768px | P1 | Corretto | Filtri 2x2 a 768, 4 colonne da 1024 |

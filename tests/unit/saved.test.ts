@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   isSaved,
-  LEGACY_SAVED_STORAGE_KEY,
+  LEGACY_SAVED_STORAGE_KEYS,
   migrateLegacySaved,
   parseSaved,
   readSaved,
@@ -71,21 +71,33 @@ describe("saved items", () => {
     expect(writeSaved(undefined, [])).toBe(false);
   });
 
-  it("migrates bookmarks saved under the pre-rename key once, without overwriting current data", () => {
-    expect(LEGACY_SAVED_STORAGE_KEY).toBe("facc:saved:v1");
-    expect(SAVED_STORAGE_KEY).toBe("attorno:saved:v1");
-    const storage = memoryStorage();
-    storage.setItem(LEGACY_SAVED_STORAGE_KEY, serializeSaved(toggleSaved([], target, NOW)));
-    migrateLegacySaved(storage);
-    expect(readSaved(storage).items).toEqual([{ ...target, savedAt: NOW.toISOString() }]);
-    expect(storage.data.has(LEGACY_SAVED_STORAGE_KEY)).toBe(false);
+  it("migrates bookmarks saved under previous names once, without overwriting current data", () => {
+    expect(LEGACY_SAVED_STORAGE_KEYS).toEqual(["facc:saved:v1", "attorno:saved:v1"]);
+    expect(SAVED_STORAGE_KEY).toBe("kesifa:saved:v1");
+    for (const legacyKey of LEGACY_SAVED_STORAGE_KEYS) {
+      const storage = memoryStorage();
+      storage.setItem(legacyKey, serializeSaved(toggleSaved([], target, NOW)));
+      migrateLegacySaved(storage);
+      expect(readSaved(storage).items, legacyKey).toEqual([{ ...target, savedAt: NOW.toISOString() }]);
+      expect(storage.data.has(legacyKey)).toBe(false);
+    }
+
+    // Both legacy keys present: the newer (attorno) wins, both are removed.
+    const older = toggleSaved([], { slug: "demo-festa-della-castagna", occurrenceId: "occ-castagne-1" }, NOW);
+    const newer = toggleSaved([], target, NOW);
+    const two = memoryStorage();
+    two.setItem("facc:saved:v1", serializeSaved(older));
+    two.setItem("attorno:saved:v1", serializeSaved(newer));
+    migrateLegacySaved(two);
+    expect(readSaved(two).items).toEqual(newer);
+    expect([...two.data.keys()]).toEqual(["kesifa:saved:v1"]);
 
     const both = memoryStorage();
     both.setItem(SAVED_STORAGE_KEY, "[]");
-    both.setItem(LEGACY_SAVED_STORAGE_KEY, serializeSaved(toggleSaved([], target, NOW)));
+    both.setItem("attorno:saved:v1", serializeSaved(newer));
     migrateLegacySaved(both);
     expect(readSaved(both).items).toEqual([]);
-    expect(both.data.has(LEGACY_SAVED_STORAGE_KEY)).toBe(false);
+    expect(both.data.has("attorno:saved:v1")).toBe(false);
 
     expect(() => migrateLegacySaved(null)).not.toThrow();
   });
